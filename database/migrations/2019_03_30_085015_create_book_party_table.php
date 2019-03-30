@@ -16,11 +16,11 @@ class CreateBookPartyTable extends Migration
         Schema::create('book_party', function (Blueprint $table) {
             $table->bigIncrements('id')->comment('报名会id');
             $table->string('title')->comment('标题');
-            $table->string('speaker')->comment('主讲人');
-            $table->string('place')->comment('地点');
+            $table->string('speaker')->default('')->comment('主讲人');
+            $table->string('place')->default('')->comment('地点');
             $table->text('summary')->comment('简介');
-            $table->text('max_user')->comment('报名上限');
-            $table->text('checkin_code')->comment('签到码')->unique();
+            $table->integer('max_user')->comment('报名上限');
+            $table->string('checkin_code')->unique()->comment('签到码');
             $table->timestamps();
         });
     }
