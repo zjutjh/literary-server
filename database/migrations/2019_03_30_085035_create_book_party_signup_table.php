@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateBookPartySignupTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id')->comment('用户id');
-            $table->string('name')->comment('真实姓名');
-            $table->string('sid')->unique()->comment('学号');
-            $table->string('mobile')->unique()->comment('手机号');
+        Schema::create('book_party_signup', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('uid')->comment('用户id');
+            $table->integer('book_party_id')->comment('读书会id');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('book_party_signup');
     }
 }
