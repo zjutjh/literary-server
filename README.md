@@ -6,7 +6,7 @@
 
 ## 最佳实践
 
-开发前请先阅读[最佳实践指南](https://zjutjh.gitbooks.io/document/content/1.3-Laravel/1.3.1-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5.html)
+开发前请先阅读[最佳实践指南](https://doc.zjut.com/4-Laravel/4.1-%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5.html)
 
 ## 开始开发
 首先复制.env.example的内容至.env（新建）
