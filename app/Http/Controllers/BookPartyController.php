@@ -80,6 +80,10 @@ class BookPartyController extends Controller
         if (!$user) {
             return RJM(1, null, '请先登录');
         }
+        $count = BookPartySignup::where('book_party_id', $bookPartyId)->count();
+        if ($bookParty->max_user && $bookParty->max_user >= $count) {
+            return RJM(1, null, '超过最大报名人数');
+        }
         if (BookPartySignup::where('uid', $user->id)->where('book_party_id', $bookPartyId)->first()) {
             return RJM(1, null, '你已经报名过该读书会');
         }
@@ -171,6 +175,76 @@ class BookPartyController extends Controller
         ]);
 
         $party->save();
+
+        return RJM(0);
+    }
+
+    /**
+     * 更新
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function update(Request $request) {
+        $messages = [
+            'bookPartyId.required' => '错误的参数',
+            'title.required' => '标题不能为空',
+            'startTime.required' => '开始时间不能为空',
+            'place.required' => '地点不能为空',
+        ];
+        $validator = Validator::make($request->all(), [
+            'bookPartyId' => 'required',
+            'title' => 'required',
+            'startTime' => 'required',
+            'place' => 'required'
+        ], $messages);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return RJM(1, null, $errors->first());
+        }
+        $bookPartyId = $request->get('bookPartyId');
+        $title = $request->get('title');
+        $speaker = $request->get('speaker');
+        $startTime = Carbon::parse($request->get('startTime'));
+        $place = $request->get('place');
+        $summary = $request->get('summary');
+        $maxUser = $request->get('maxUser') ? $request->get('maxUser') : 0;
+        $checkinCode = Str::random(20);
+
+        BookParty::where('bookPartyId', $bookPartyId)->update([
+            'title' => $title,
+            'speaker' => $speaker,
+            'place' => $place,
+            'start_time' => $startTime,
+            'summary' => $summary,
+            'max_user' => $maxUser,
+            'checkin_code' => $checkinCode
+        ]);
+
+        return RJM(0);
+    }
+
+    public function delete(Request $request) {
+        $messages = [
+            'bookPartyId.required' => '错误的参数'
+        ];
+        $validator = Validator::make($request->all(), [
+            'bookPartyId' => 'required'
+        ], $messages);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return RJM(1, null, $errors->first());
+        }
+
+        $bookPartyId = $request->get('bookPartyId');
+        $bookParty = BookParty::where('id', '=', $bookPartyId)->where('status', '=', '0')->first();
+        $user = $request->user();
+        if (!$bookParty) {
+            return RJM(1, null, '找不到读书会');
+        }
+        if (!$user) {
+            return RJM(1, null, '请先登录');
+        }
+        $bookParty->delete();
 
         return RJM(0);
     }
