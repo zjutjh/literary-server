@@ -14,6 +14,11 @@ class BookPartyController extends Controller
         return RJM(0, BookParty::where('status', '=', '0')->get());
     }
 
+    /**
+     * 应该只允许管理员添加
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function add(Request $request) {
         $messages = [
             'title.required' => '标题不能为空',

@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable()->default('')->comment('真实姓名');
             $table->string('sid')->unique()->comment('学号');
             $table->string('mobile')->nullable()->default('')->comment('手机号');
+            $table->integer('is_admin')->default(0)->comment('是否是管理员');
             $table->timestamps();
         });
     }

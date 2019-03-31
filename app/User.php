@@ -2,6 +2,7 @@
 
 namespace App;
 
+use http\Env\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,13 +12,14 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
+    public static $snakeAttributes = false;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'sid', 'name', 'mobile'
+        'name', 'sid', 'name', 'mobile', 'is_admin'
     ];
 
     /**
@@ -36,6 +38,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
 //        'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 
     /**

@@ -13,12 +13,17 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::post('login', 'Auth\LoginController@login');
-Route::post('book-party/add', 'BookPartyController@add');
 Route::get('book-party/list', 'BookPartyController@list');
+
+Route::middleware('admin')->group(function () {
+    Route::post('book-party/add', 'BookPartyController@add');
+});
+Route::middleware('auth:api')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return RJM(0, $request->user());
+    });
+    Route::post('book-party/add', 'BookPartyController@add');
+});
 
 Route::fallback('Controller@notFound');

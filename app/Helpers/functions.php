@@ -1,17 +1,32 @@
 <?php
+
+use Illuminate\Support\Str;
+
 /**
- * 响应json数据
- * @param  integer    $code
- * @param  mixed  $data
- * @param  string   $error
+ * 响应json数据，并转换为驼峰格式
+ * @param  integer $code 0为正常响应，非0表示错误响应
+ * @param  mixed   $data
+ * @param  string|null  $error
  * @return \Symfony\Component\HttpFoundation\Response
  */
-function RJM($code, $data = null, $error = '')
+function RJM($code, $data = null, $error = null)
 {
+    function mapToCamelCase($object) {
+        if ($object && (is_array($object) || is_object($object))) {
+            $data = is_object($object) ? $object->toArray() : $object;
+            $return = [];
+            foreach($data as $key => $value)
+            {
+                $return[Str::camel($key)] = mapToCamelCase($value);
+            }
+            return $return;
+        }
+        return $object;
+    }
     return response([
         'code' => $code,
         'error' => $error,
-        'data' => $data
+        'data' => mapToCamelCase($data)
     ]);
 }
 
