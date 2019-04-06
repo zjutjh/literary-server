@@ -23,6 +23,7 @@ class CreateBookPartyTable extends Migration
             $table->integer('max_user')->comment('报名上限');
             $table->string('checkin_code')->unique()->comment('签到码');
             $table->integer('status')->default(0)->comment('状态，0正常，1关闭');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
