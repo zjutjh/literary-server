@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 
 // 登录相关
 Route::post('login', 'Auth\LoginController@login');
-Route::all('oauth/weapp/code', 'OauthController@weapp');
+Route::any('oauth/weapp/code', 'OauthController@weapp');
 Route::post('login/oauth/weapp', 'LoginController@loginByWeappOpenid');
 Route::post('login/weapp', 'LoginController@loginWithOpenid');
 
