@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable()->default('')->comment('真实姓名');
             $table->string('sid')->unique()->comment('学号');
             $table->string('mobile')->nullable()->default('')->comment('手机号');
-            $table->integer('is_admin')->default(0)->comment('是否是管理员');
+            $table->integer('institute_id')->nullable()->default(0)->comment('学院id');
             $table->timestamps();
         });
     }

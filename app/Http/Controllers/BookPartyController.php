@@ -2,24 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Institutes;
+use App\SignUp;
+use App\User;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+//use Validator;
 use App\BookParty;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class BookPartyController extends Controller
 {
-    public function list() {
-        return RJM(0, BookParty::where('status', '=', '0')->get());
-    }
+//    public function list() {
+//        $readParty = BookParty::get();
+//        return RJM(0, ['readParty' => $readParty]);
+//    }
+
+
 
     /**
      * 应该只允许管理员添加
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
+
     public function add(Request $request) {
+//        if (!session()->has('is_admin')) {
+//            return back();
+//        }
+//        表单验证
         $messages = [
             'title.required' => '标题不能为空',
             'startTime.required' => '开始时间不能为空',
@@ -36,7 +49,7 @@ class BookPartyController extends Controller
         }
         $title = $request->get('title');
         $speaker = $request->get('speaker');
-        $startTime = Carbon::parse($request->get('startTime'));
+        $startTime = Carbon::parse($request->get('startTime'));//时间处理，解析任何顺序和类型的日期
         $place = $request->get('place');
         $summary = $request->get('summary');
         $maxUser = $request->get('maxUser') ? $request->get('maxUser') : 0;
@@ -55,5 +68,64 @@ class BookPartyController extends Controller
         $party->save();
 
         return RJM(0);
+    }
+
+    public function showReadParty(){
+        $readParties = BookParty::get();
+        return RJM(0,
+            ['readParties' => $readParties]);
+    }
+
+
+    public function delete(Request $request){
+        $id = $request->get('id');
+        $party = BookParty::where('id',$id)->delete();
+        return RJM(0,$party);
+    }
+
+    public function select($id){
+
+        $party = BookParty::where('id',$id)->first();
+        return RJM(0,$party);
+    }
+
+    public function showSignUp($id){
+        $users= DB::table('users')
+            ->join('book_party_signup',function ($join) use ($id){
+                $join->on('users.id','=','book_party_signup.uid')
+                    ->where('book_party_signup.book_party_id','=',$id);
+            })->get();
+        $data = [];
+        foreach ($users as $user){
+            $institute = DB::table('institutes')
+                ->where('id',$user['institute_id'])
+                ->select('name')
+                ->first();
+            $data [] = array(
+//                'id' => $user['id'],
+                'uid' => $user['sid'],
+                'name' => $user['name'],
+                'mobile' => $user['mobile'],
+                'institute' => $institute['name']
+            );
+
+        }
+
+        return RJM(0,['user'=>$data]);
+    }
+
+    public function update(Request $request){
+
+        $params = $request->all();
+        BookParty::where('id',$params['id'])
+            ->update(['title'=>$params['title'],
+                    'speaker'=>$params['speaker'],
+                    'place' =>$params['place'],
+                    'start_time'=>$params['startTime'],
+                    'summary'=>$params['summary'],
+                    'max_user'=>$params['maxUser'],
+                    'checkin_code'=>$params['checkinCode']]);
+        return RJM(0,"更新成功");
+
     }
 }
