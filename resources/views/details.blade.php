@@ -76,12 +76,12 @@
                                     <input type="text" class="form-control" id="limitNum" name="limitNum" placeholder="报名人数上限" readonly>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="col-sm-2 control-label" for="code">签到码</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="code" placeholder="签到码" readonly>
                                 </div>
-                            </div>
+                            </div> -->
                             <a class="btn btn-default formBtn1" data-toggle="collapse" data-target="#tableDiv">查看报名人员信息</a>
                             <a class="btn btn-default" id="modifyBtn">修改</a>
                             <button type="submit" class="btn btn-default" id="confirmBtn">确定</button>
