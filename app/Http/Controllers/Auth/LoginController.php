@@ -37,7 +37,6 @@ class LoginController extends Controller
      *
      * @return void
      */
-//    global int is_admin = 0;
 
     public function __construct() {
         $this->middleware('guest')->except('logout');
@@ -60,9 +59,6 @@ class LoginController extends Controller
         $password = $request->get('password');
         try {
             JHService::login($username, $password);
-//            if(($user = User::where('sid',$username))->is_admin){
-//
-//            }
         } catch (\Exception $e) {
             return RJM(1, null, $e->getMessage());
         }
@@ -88,6 +84,7 @@ class LoginController extends Controller
         ]);
     }
 
+//    管理员登录
     public function adminLogin(Request $request){
         $messages = [
             'username.required' => '用户名不能为空',

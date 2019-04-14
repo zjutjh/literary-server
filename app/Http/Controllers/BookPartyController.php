@@ -15,12 +15,6 @@ use Carbon\Carbon;
 
 class BookPartyController extends Controller
 {
-//    public function list() {
-//        $readParty = BookParty::get();
-//        return RJM(0, ['readParty' => $readParty]);
-//    }
-
-
 
     /**
      * 应该只允许管理员添加
@@ -28,10 +22,8 @@ class BookPartyController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
 
+
     public function add(Request $request) {
-//        if (!session()->has('is_admin')) {
-//            return back();
-//        }
 //        表单验证
         $messages = [
             'title.required' => '标题不能为空',
@@ -70,25 +62,28 @@ class BookPartyController extends Controller
         return RJM(0);
     }
 
+//    显示所有读书会信息
     public function showReadParty(){
         $readParties = BookParty::get();
         return RJM(0,
             ['readParties' => $readParties]);
     }
 
-
+//    删除读书会
     public function delete(Request $request){
         $id = $request->get('id');
         $party = BookParty::where('id',$id)->delete();
         return RJM(0,$party);
     }
 
+//    选择一个读书会并显示其详细信息
     public function select($id){
 
         $party = BookParty::where('id',$id)->first();
         return RJM(0,$party);
     }
 
+//    显示指定读书会的报名人员
     public function showSignUp($id){
         $users= DB::table('users')
             ->join('book_party_signup',function ($join) use ($id){
@@ -102,7 +97,6 @@ class BookPartyController extends Controller
                 ->select('name')
                 ->first();
             $data [] = array(
-//                'id' => $user['id'],
                 'uid' => $user['sid'],
                 'name' => $user['name'],
                 'mobile' => $user['mobile'],
@@ -114,6 +108,7 @@ class BookPartyController extends Controller
         return RJM(0,['user'=>$data]);
     }
 
+//    更新读书会内容
     public function update(Request $request){
 
         $params = $request->all();
