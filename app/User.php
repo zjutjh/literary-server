@@ -62,9 +62,15 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function getInstituteAttribute() {
-        return Institutes::find($this['institute_id'])->select('name')->first();
+
+    /**
+     * 获取学院数据
+     * @param  integer $value
+     * @return array
+     */
+    public function getInstituteIdAttribute($value) {
+        $institute = Institute::where('id', $value)->first();
+
+        return $institute;
     }
-
-
 }
