@@ -8,7 +8,6 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
-//use Validator;
 use App\BookParty;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -71,11 +70,11 @@ class BookPartyController extends Controller
     }
 
 //    删除读书会
-    public function delete(Request $request){
-        $id = $request->get('id');
-        $party = BookParty::where('id',$id)->delete();
-        return RJM(0,$party);
-    }
+//    public function delete(Request $request){
+//        $id = $request->get('id');
+//        $party = BookParty::where('id',$id)->delete();
+//        return RJM(0,$party);
+//    }
 
 //    选择一个读书会并显示其详细信息
     public function select($id){
@@ -110,18 +109,18 @@ class BookPartyController extends Controller
     }
 
 //    更新读书会内容
-    public function update(Request $request){
-
-        $params = $request->all();
-        BookParty::where('id',$params['id'])
-            ->update(['title'=>$params['title'],
-                    'speaker'=>$params['speaker'],
-                    'place' =>$params['place'],
-                    'start_time'=>$params['startTime'],
-                    'summary'=>$params['summary'],
-                    'max_user'=>$params['maxUser'],
-                    'checkin_code'=>$params['checkinCode']]);
-        return RJM(0,"更新成功");
-
-    }
+//    public function update(Request $request){
+//
+//        $params = $request->all();
+//        BookParty::where('id',$params['id'])
+//            ->update(['title'=>$params['title'],
+//                    'speaker'=>$params['speaker'],
+//                    'place' =>$params['place'],
+//                    'start_time'=>$params['startTime'],
+//                    'summary'=>$params['summary'],
+//                    'max_user'=>$params['maxUser'],
+//                    'checkin_code'=>$params['checkinCode']]);
+//        return RJM(0,"更新成功");
+//
+//    }
 }
