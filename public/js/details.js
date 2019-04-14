@@ -116,7 +116,7 @@ $(".formBtn1").on("click",function(){
                     `
                     <td>${element.institute}</td>
                     <td>${element.name}</td>
-                    <td>${element.uid}</td>
+                    <td>${element.sid}</td>
                     <td>${element.mobile}</td>
                     `
                     let child = document.createElement('tr')

@@ -98,7 +98,7 @@ class BookPartyController extends Controller
                 ->select('name')
                 ->first();
             $data [] = array(
-                'uid' => $user->sid,
+                'sid' => $user->sid,
                 'name' => $user->name,
                 'mobile' => $user->mobile,
                 'institute' => $institute->name
