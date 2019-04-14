@@ -17,7 +17,7 @@ $(document).ready(function() {
         function (result) {
             console.log(result)
             if(result.code==0) {
-                const data = result.data.readParties
+                const data = result.data.bookParties
                 data.forEach(element => {
                     let template =
                     `

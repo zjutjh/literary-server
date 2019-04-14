@@ -14,9 +14,6 @@
 use Illuminate\Support\Facades\Route;
 
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 
 Route::get('admin',function (){
     return view('admin');
@@ -39,7 +36,7 @@ Route::get('api/admin/show','AdminController@showAdmin');
 //显示当前读书会报名人员
 Route::get('api/bookParty/showSignUp/{id}','BookPartyController@showSignUp');
 //显示所有读书会的所有内容
-Route::get('api/bookParty/list','BookPartyController@showReadParty');
+Route::get('api/bookParty/list','BookPartyController@showBookParty');
 //新建读书会
 Route::post('api/bookParty/add','BookPartyController@add');
 //删除读书会

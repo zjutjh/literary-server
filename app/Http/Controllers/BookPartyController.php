@@ -63,10 +63,11 @@ class BookPartyController extends Controller
     }
 
 //    显示所有读书会信息
-    public function showReadParty(){
-        $readParties = BookParty::get();
+    public function showBookParty(){
+
+        $bookParties = BookParty::get();
         return RJM(0,
-            ['readParties' => $readParties]);
+            ['bookParties' => $bookParties]);
     }
 
 //    删除读书会
@@ -93,14 +94,14 @@ class BookPartyController extends Controller
         $data = [];
         foreach ($users as $user){
             $institute = DB::table('institutes')
-                ->where('id',$user['institute_id'])
+                ->where('id',$user->institute_id)
                 ->select('name')
                 ->first();
             $data [] = array(
-                'uid' => $user['sid'],
-                'name' => $user['name'],
-                'mobile' => $user['mobile'],
-                'institute' => $institute['name']
+                'uid' => $user->sid,
+                'name' => $user->name,
+                'mobile' => $user->mobile,
+                'institute' => $institute->name
             );
 
         }
