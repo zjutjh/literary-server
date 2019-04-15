@@ -16,7 +16,7 @@ class CreateInstitutesTable extends Migration
         Schema::create('institutes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->comment('学院名称');
-            $table->string('comment')->comment('备注');
+            $table->string('comment')->default('')->comment('备注');
             $table->timestamps();
         });
     }
