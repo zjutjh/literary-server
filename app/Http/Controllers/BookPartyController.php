@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Institutes;
 use App\SignUp;
 use App\User;
 use Illuminate\Support\Facades\DB;
-use App\BookPartyCheckin;
-use App\BookPartySignup;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+//use Validator;
 use App\BookParty;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -184,7 +181,6 @@ class BookPartyController extends Controller
         return RJM(0);
     }
 
-
 //    显示所有读书会信息
     public function showBookParty(){
 
@@ -193,12 +189,7 @@ class BookPartyController extends Controller
             ['bookParties' => $bookParties]);
     }
 
-//    删除读书会
-//     public function delete(Request $request){
-//         $id = $request->get('id');
-//         $party = BookParty::where('id',$id)->delete();
-//         return RJM(0,$party);
-//     }
+
 
 //    选择一个读书会并显示其详细信息
     public function select($id){
