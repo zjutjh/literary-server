@@ -27,7 +27,6 @@ $(document).ready(function() {
                     <td>${element.startTime.substr(0,element.startTime.lastIndexOf(":"))}</td>
                     <td>${element.summary}</td>
                     <td>${element.maxUser}</td>
-                    <td>${element.checkinCode}</td>
                     <td>
                         <button class="btn btn-default" onclick="toDetail(${element.id})">查看</button>
                         <button class="btn btn-default" onclick="Delete(${element.id})">删除</button>
@@ -104,7 +103,7 @@ function addReading() {
     let timeH=$("#timeH").val()
     let desc=$("#desc").val()
     let limitNum=$("#limitNum").val()
-    let code=$("#code").val()
+    // let code=$("#code").val()
     if(theme==""||speaker==""||place==""||timeD==""||timeH==""||code=="") {
         alert("有信息未输入！")
         return
@@ -115,8 +114,7 @@ function addReading() {
         "place":place,
         "startTime":timeD+" "+timeH,
         "summary":desc,
-        "maxUser":limitNum,
-        "checkinCode":code
+        "maxUser":limitNum
     }
     $.post("api/bookParty/add", data,
         function (res) {

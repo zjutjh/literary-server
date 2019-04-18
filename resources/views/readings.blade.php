@@ -78,12 +78,12 @@
                                     <input type="text" class="form-control" id="limitNum" name="limitNum" placeholder="报名人数上限">
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label class="col-sm-2 control-label" for="code">签到码</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="code" placeholder="签到码">
                                 </div>
-                            </div>
+                            </div> -->
                             <button onclick="addReading()" class="btn btn-default formBtn1">确定</button>
                             <button class="btn btn-default" data-toggle="collapse" data-target="#rightForm">取消</button>
                         </form>
@@ -97,7 +97,7 @@
                                 <th>时间</th>
                                 <th>简介</th>
                                 <th>报名人数上限</th>
-                                <th>签到码</th>
+                                <!-- <th>签到码</th> -->
                                 <th></th>
                             </tr>
                         </thead>
@@ -109,7 +109,7 @@
                                 {{--<td>danyuange</td>--}}
                                 {{--<td>danyuange</td>--}}
                                 {{--<td>danyuange</td>--}}
-                                {{--<td>danyuange</td>--}}
+                                <!-- {{--<td>danyuange</td>--}} -->
                                 {{--<td>--}}
                                     {{--<button class="btn btn-default toDetail">查看</button>--}}
                                     {{--<button class="btn btn-default delete">删除</button>--}}

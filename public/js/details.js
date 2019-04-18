@@ -49,7 +49,7 @@ window.onload = function() {
             $("#timeH").val(time.substr(0,time.lastIndexOf(":")));
             $("#desc").val(data.summary);
             $("#limitNum").val(data.maxUser);
-            $("#code").val(data.checkinCode)
+            // $("#code").val(data.checkinCode)
         }
     })
     $('#rightForm').bootstrapValidator({
@@ -137,7 +137,7 @@ $("#confirmBtn").on("click",function() {
     let timeH=$("#timeH").val()
     let desc=$("#desc").val()
     let limitNum=$("#limitNum").val()
-    let code=$("#code").val()
+    // let code=$("#code").val()
     if(theme==""||speaker==""||place==""||timeD==""||timeH==""||code=="") {
         alert("有信息未输入！")
         return
@@ -149,8 +149,7 @@ $("#confirmBtn").on("click",function() {
         "place":place,
         "startTime":timeD+" "+timeH,
         "summary":desc,
-        "maxUser":limitNum,
-        "checkinCode":code
+        "maxUser":limitNum
     }
     $.post("api/bookParty/update", data,
         function (res) {
