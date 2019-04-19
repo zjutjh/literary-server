@@ -15,6 +15,9 @@ use Carbon\Carbon;
 
 class BookPartyController extends Controller
 {
+    public function list() {
+        return RJM(0, BookParty::where('status', '=', '0')->get());
+    }
 
     public function detail(Request $request) {
         $messages = [
