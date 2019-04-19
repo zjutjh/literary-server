@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Services;
 
+use Mockery\Exception;
+
 class JHService {
     static public function login($username, $password) {
         if (!$username OR !$password) {

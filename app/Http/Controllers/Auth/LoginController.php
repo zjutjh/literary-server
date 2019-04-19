@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 use App\User;
+use App\UserAdmin;
+use Illuminate\Support\Facades\Validator;
 use App\UserLink;
 use Validator;
 use JWTAuth;
@@ -11,6 +13,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Services\JHService;
 use Illuminate\Http\Request;
 use App\Rules\Mobile;
+use Tymon\JWTAuth\JWTAuth;
+
+//use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class LoginController extends Controller
 {
@@ -32,6 +38,7 @@ class LoginController extends Controller
      *
      * @return void
      */
+
     public function __construct() {
         $this->middleware('guest')->except('logout');
     }
@@ -123,7 +130,7 @@ class LoginController extends Controller
     public function login(Request $request) {
         $messages = [
             'username.required' => '用户名不能为空',
-            'password.required' => '用户名不能为空'
+            'password.required' => '密码不能为空'
         ];
         $validator = Validator::make($request->all(), [
             'username' => 'required',
@@ -161,4 +168,31 @@ class LoginController extends Controller
             'token' => $token
         ]);
     }
+
+//    管理员登录
+    public function adminLogin(Request $request){
+        $messages = [
+            'username.required' => '用户名不能为空',
+            'password.required' => '密码不能为空'
+        ];
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required'
+        ], $messages);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return RJM(1, null, $errors->first());
+        }
+        $username = $request->get('username');
+        $password = $request->get('password');
+        if (!$user = UserAdmin::where('username',$username)->first()){
+            return RJM(1, null, '用户不存在');
+        }else if ($user->password != $password){
+            return RJM(1, null, '用户密码错误');
+        }else{
+//            $request->session()->put('is_admin', "true");
+            return RJM(0,$user);
+        }
+    }
+
 }

@@ -1,0 +1,67 @@
+.mainDiv {
+    width: 100%;
+    padding: 0;
+}
+
+.mainDiv > ul {
+    padding-right: 0;
+}
+
+.mainDiv li {
+    display: block;
+}
+
+.mainDiv li a {
+    border-radius: 0;
+}
+
+.bgcWhite {
+    background-color: #ffffff;
+}
+
+.rightNav {
+    float: right;
+}
+
+.rightIndex {
+    background-color: #f8f8f8;
+    height: 1000px;
+    padding: 0;
+}
+
+.rightIndex > div {
+    margin-bottom: 0;
+}
+
+#rightForm button {
+    display: inline-block;
+}
+
+.formBtn1 {
+    margin-left: 10%;
+    margin-right: 1%;
+}
+
+.sec-active {
+    font-weight: 900;
+    background-color: #dfdfdf;
+}
+
+.mainDiv ul li ul {
+    padding-left: 0;
+    text-align: left;
+}
+
+.mainDiv ul li ul li {
+    padding-left: 10%;
+    height: 2em;
+    line-height: 2em;
+}
+
+.mainDiv ul li ul li:hover {
+    background-color: #eeeeee;
+}
+
+.timeInput div {
+    padding: 0;
+}

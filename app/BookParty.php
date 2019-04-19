@@ -16,7 +16,7 @@ class BookParty extends Model
     ];
 
     protected $hidden = [
-        'checkin_code'
+//        'checkin_code'
     ];
 
     static public function getBookPartyWhenLogin($id, $uid) {
