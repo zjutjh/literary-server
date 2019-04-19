@@ -16,9 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('cors')->group(function () {
     // 登录相关
     Route::post('login', 'Auth\LoginController@login');
-    Route::any('oauth/weapp/code', 'OauthController@weapp');
-    Route::post('login/oauth/weapp', 'LoginController@loginByWeappOpenid');
-    Route::post('login/weapp', 'LoginController@loginWithOpenid');
+    Route::any('oauth/weapp/code', 'Auth\OauthController@weapp');
+    Route::post('login/oauth/weapp', 'Auth\LoginController@loginByWeappOpenid');
+    Route::post('login/weapp', 'Auth\LoginController@loginWithCode');
 
     // 读书会相关
     Route::get('book-party/list', 'BookPartyController@list');
