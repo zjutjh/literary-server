@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Institutes;
-use App\SignUp;
 use App\User;
+use App\BookPartyCheckin;
+use App\BookPartySignup;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
@@ -94,7 +95,7 @@ class BookPartyController extends Controller
         $signup->book_party_id = $bookPartyId;
         $signup->save();
 
-        return RJM(0, null, '报名成功');
+        return RJM(0, BookParty::getBookPartyWhenLogin($bookPartyId, $user ? $user->id : null), '报名成功');
 
     }
 
@@ -115,10 +116,15 @@ class BookPartyController extends Controller
         }
 
         $checkinCode = $request->get('checkinCode');
+        $bookPartyId = $request->get('bookPartyId');
         $bookParty = BookParty::where('checkin_code', '=', $checkinCode)->where('status', '=', '0')->first();
         $user = $request->user();
         if (!$bookParty) {
-            return RJM(1, null, '找不到读书会');
+            return RJM(1, null, '签到二维码错误');
+        }
+        // 假如有传id，那么就校验一下签到的码和查到的是否是同一个读书会
+        if ($bookPartyId && intval($bookPartyId) !== intval($bookParty->id)) {
+            return RJM(1, null, '你可能签错到了');
         }
         if (!$user) {
             return RJM(1, null, '请先登录');
@@ -134,7 +140,7 @@ class BookPartyController extends Controller
         $checkin->book_party_id = $bookParty->id;
         $checkin->save();
 
-        return RJM(0, null, '报名成功');
+        return RJM(0, BookParty::getBookPartyWhenLogin($bookParty->id, $user ? $user->id : null), '报名成功');
 
     }
 

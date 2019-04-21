@@ -37,8 +37,8 @@ Route::middleware('cors')->group(function () {
         Route::get('/user', function (Request $request) {
             return RJM(0, $request->user());
         });
-        Route::post('user/book-party/sign-up', 'BookPartyController@getSignupListByUser');
-        Route::post('user/book-party/check-in', 'BookPartyController@getCheckinListByUser');
+        Route::get('user/book-party/sign-up', 'BookPartyController@getSignupListByUser');
+        Route::get('user/book-party/check-in', 'BookPartyController@getCheckinListByUser');
         Route::post('book-party/sign-up', 'BookPartyController@signup');
         Route::post('book-party/check-in', 'BookPartyController@checkin');
     });
