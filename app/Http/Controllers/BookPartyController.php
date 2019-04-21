@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Institutes;
 use App\User;
 use App\BookPartyCheckin;
 use App\BookPartySignup;

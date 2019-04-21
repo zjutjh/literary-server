@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Institute extends Model
 {
     protected $fillable = [
+        'comment',
         'name'
     ];
 }
