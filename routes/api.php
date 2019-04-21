@@ -24,6 +24,9 @@ Route::middleware('cors')->group(function () {
     Route::get('book-party/list', 'BookPartyController@list');
     Route::get('book-party/detail', 'BookPartyController@detail');
 
+    // 学院相关
+    Route::get('institute/list', 'InstituteController@list');
+
 
     // 管理员相关
     Route::middleware('admin')->group(function () {
@@ -41,6 +44,7 @@ Route::middleware('cors')->group(function () {
         Route::get('user/book-party/check-in', 'BookPartyController@getCheckinListByUser');
         Route::post('book-party/sign-up', 'BookPartyController@signup');
         Route::post('book-party/check-in', 'BookPartyController@checkin');
+        Route::post('user/user-info', 'UserController@updateUserInfo');
     });
 });
 
