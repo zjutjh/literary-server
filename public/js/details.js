@@ -7,7 +7,8 @@ $(".mainDiv ul li a").on("click",function () {
 
 $("#timeD").datepicker({
     format: "yyyy-mm-dd",
-    language: "zh-CN"
+    language: "zh-CN",
+    startDate:new Date()
 })
 
 $("#modifyBtn").on("click",function(){
