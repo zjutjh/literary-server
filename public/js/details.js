@@ -138,7 +138,7 @@ $("#confirmBtn").on("click",function() {
     let desc=$("#desc").val()
     let limitNum=$("#limitNum").val()
     // let code=$("#code").val()
-    if(theme==""||speaker==""||place==""||timeD==""||timeH==""||code=="") {
+    if(theme==""||speaker==""||place==""||timeD==""||timeH=="") {
         alert("有信息未输入！")
         return
     }
