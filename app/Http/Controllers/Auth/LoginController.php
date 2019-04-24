@@ -5,7 +5,7 @@ use App\User;
 use App\UserAdmin;
 use Illuminate\Support\Facades\Validator;
 use App\UserLink;
-use Validator;
+//use Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
@@ -13,7 +13,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Services\JHService;
 use Illuminate\Http\Request;
 use App\Rules\Mobile;
-use Tymon\JWTAuth\JWTAuth;
+//use Tymon\JWTAuth\JWTAuth;
 
 //use Tymon\JWTAuth\Facades\JWTAuth;
 
