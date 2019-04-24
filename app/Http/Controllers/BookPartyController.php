@@ -61,21 +61,22 @@ class BookPartyController extends Controller
     /**
      * 报名
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function signup(Request $request) {
         $messages = [
-            'id.required' => '错误的参数'
+            'bookPartyId.required' => '错误的参数'
         ];
         $validator = Validator::make($request->all(), [
-            'id' => 'required'
+            'bookPartyId' => 'required'
         ], $messages);
         if ($validator->fails()) {
             $errors = $validator->errors();
             return RJM(1, null, $errors->first());
         }
 
-        $id = $request->get('id');
-        $bookParty = BookParty::where('id', '=', $id)->where('status', '=', '0')->first();
+        $bookPartyId = $request->get('id');
+        $bookParty = BookParty::where('id', '=', $bookPartyId)->where('status', '=', '0')->first();
         $user = $request->user();
         if (!$bookParty) {
             return RJM(1, null, '找不到读书会');
@@ -83,16 +84,16 @@ class BookPartyController extends Controller
         if (!$user) {
             return RJM(1, null, '请先登录');
         }
-        $count = BookPartySignup::where('book_party_id', $id)->count();
+        $count = BookPartySignup::where('book_party_id', $bookPartyId)->count();
         if ($bookParty->max_user && $bookParty->max_user >= $count) {
             return RJM(1, null, '超过最大报名人数');
         }
-        if (BookPartySignup::where('uid', $user->id)->where('book_party_id', $id)->first()) {
+        if (BookPartySignup::where('uid', $user->id)->where('book_party_id', $bookPartyId)->first()) {
             return RJM(1, null, '你已经报名过该读书会');
         }
         $signup = new BookPartySignup();
         $signup->uid = $user->id;
-        $signup->book_party_id = $id;
+        $signup->book_party_id = $bookPartyId;
         $signup->save();
 
         return RJM(0, BookParty::getBookPartyWhenLogin($bookPartyId, $user ? $user->id : null), '报名成功');
@@ -102,6 +103,7 @@ class BookPartyController extends Controller
     /**
      * 签到
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function checkin(Request $request) {
         $messages = [
@@ -194,7 +196,6 @@ class BookPartyController extends Controller
     public function showBookParty(){
 
         $bookParties = BookParty::get();
-//        dd($bookParties);
         return RJM(0,
             ['bookParties' => $bookParties]);
     }
@@ -240,13 +241,13 @@ class BookPartyController extends Controller
      */
     public function update(Request $request) {
         $messages = [
-            'id.required' => '错误的参数',
+            'bookPartyId.required' => '错误的参数',
             'title.required' => '标题不能为空',
             'startTime.required' => '开始时间不能为空',
             'place.required' => '地点不能为空',
         ];
         $validator = Validator::make($request->all(), [
-            'id' => 'required',
+            'bookPartyId' => 'required',
             'title' => 'required',
             'startTime' => 'required',
             'place' => 'required'
@@ -255,7 +256,7 @@ class BookPartyController extends Controller
             $errors = $validator->errors();
             return RJM(1, null, $errors->first());
         }
-        $id = $request->get('id');
+        $bookPartyId = $request->get('id');
         $title = $request->get('title');
         $speaker = $request->get('speaker');
         $startTime = Carbon::parse($request->get('startTime'));
@@ -265,7 +266,7 @@ class BookPartyController extends Controller
         $checkinCode = Str::random(20);
 
         //dd($bookPartyId);
-        BookParty::where('id', $id)->update([
+        BookParty::where('id', $bookPartyId)->update([
             'title' => $title,
             'speaker' => $speaker,
             'place' => $place,
@@ -279,25 +280,21 @@ class BookPartyController extends Controller
 
     public function delete(Request $request) {
         $messages = [
-            'id.required' => '错误的参数'
+            'bookPartyId.required' => '错误的参数'
         ];
         $validator = Validator::make($request->all(), [
-            'id' => 'required'
+            'bookPartyId' => 'required'
         ], $messages);
         if ($validator->fails()) {
             $errors = $validator->errors();
             return RJM(1, null, $errors->first());
         }
 
-        $id = $request->get('id');
-        $bookParty = BookParty::where('id', '=', $id)->where('status', '=', '0')->first();
-//        $user = $request->user();
+        $bookPartyId = $request->get('bookPartyId');
+        $bookParty = BookParty::where('id', '=', $bookPartyId)->where('status', '=', '0')->first();
         if (!$bookParty) {
             return RJM(1, null, '找不到读书会');
         }
-//        if (!$user) {
-//            return RJM(1, null, '请先登录');
-//        }
         $bookParty->delete();
 
         return RJM(0);

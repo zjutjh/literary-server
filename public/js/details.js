@@ -138,7 +138,7 @@ $("#confirmBtn").on("click",function() {
     // let code=$("#code").val()
     if(limitNum=="") limitNum=0
     let data = {
-        "id":readingId,
+        "bookPartyId":readingId,
         "title":theme,
         "speaker":speaker,
         "place":place,
