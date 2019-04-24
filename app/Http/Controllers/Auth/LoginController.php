@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 use App\User;
 use App\UserAdmin;
-use Illuminate\Support\Facades\Validator;
 use App\UserLink;
-//use Validator;
+use Exception;
+use Validator;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
@@ -13,7 +13,6 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Services\JHService;
 use Illuminate\Http\Request;
 use App\Rules\Mobile;
-//use Tymon\JWTAuth\JWTAuth;
 
 //use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -74,17 +73,27 @@ class LoginController extends Controller
         }
     }
 
-    public function loginWithOpenid(Request $request) {
+    public function weappGetOpenid($code) {
+        if(!$code) {
+            throw new Exception( 'code不存在');
+        }
+        $app = app('wechat.mini_program');
+        $result = $app->auth->session($code);
+
+        return $result['openid'];
+    }
+
+    public function loginWithCode(Request $request) {
         $messages = [
             'username.required' => '用户名不能为空',
             'password.required' => '用户名不能为空',
-            'openid' => '缺少openid',
+            'code' => '缺少code',
             'type' => '缺少类型',
         ];
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required',
-            'openid' => 'required',
+            'code' => 'required',
             'type' => 'required'
         ], $messages);
         if ($validator->fails()) {
@@ -93,7 +102,7 @@ class LoginController extends Controller
         }
         $username = $request->get('username');
         $password = $request->get('password');
-        $openid = $request->get('openid');
+        $code = $request->get('code');
         $type = $request->get('type');
         try {
             JHService::login($username, $password);
@@ -101,11 +110,24 @@ class LoginController extends Controller
             return RJM(1, null, $e->getMessage());
         }
 
+        try {
+            $func = $type . 'GetOpenid';
+            $openid = $this->$func($code);
+        } catch (\Exception $e) {
+            return RJM(1, null, '类型错误');
+        }
+
         // 检测是否存在用户，不存在则创建
         if(!$user = User::where('sid', $username)->first()) {
             $user = new User;
             $user->sid = $username;
             $user->save();
+            $userLink = new UserLink;
+            $userLink->uid = $user->id;
+            $userLink->type = $type;
+            $userLink->openid = $openid;
+            $userLink->save();
+        } else if (!$userLink = UserLink::where('uid', $user->id)->where('openid', $openid)->where('type', $type)->first()) {
             $userLink = new UserLink;
             $userLink->uid = $user->id;
             $userLink->type = $type;

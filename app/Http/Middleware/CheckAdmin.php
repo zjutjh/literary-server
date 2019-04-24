@@ -15,12 +15,14 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        if ($user = $request->user()) {
-            if ($user->isAdmin) {
-                return $next($request);
-            }
-            return RJM(1, $user, '不是管理员');
-        }
-        return RJM(1, null, '请先登录');
+        // TODO 如何验证是管理员
+        return $next($request);
+//        if ($user = $request->user()) {
+//            if ($user->isAdmin) {
+//                return $next($request);
+//            }
+//            return RJM(1, null, '不是管理员');
+//        }
+//        return RJM(1, null, '请先登录');
     }
 }
