@@ -7,7 +7,8 @@ $(".mainDiv ul li a").on("click",function () {
 
 $("#timeD").datepicker({
     format: "yyyy-mm-dd",
-    language: "zh-CN"
+    language: "zh-CN",
+    startDate:new Date()
 })
 
 $("#modifyBtn").on("click",function(){
@@ -90,9 +91,6 @@ window.onload = function() {
             },
             limitNum: {
                 validators: {
-                    notEmpty: {
-                        message: '报名人数上限不能为空'
-                    },
                     regexp: {
                         regexp: /^[0-9]+$/,                        
                         message: '请输入数字'
@@ -138,12 +136,9 @@ $("#confirmBtn").on("click",function() {
     let desc=$("#desc").val()
     let limitNum=$("#limitNum").val()
     // let code=$("#code").val()
-    if(theme==""||speaker==""||place==""||timeD==""||timeH==""||code=="") {
-        alert("有信息未输入！")
-        return
-    }
+    if(limitNum=="") limitNum=0
     let data = {
-        "id":readingId,
+        "bookPartyId":readingId,
         "title":theme,
         "speaker":speaker,
         "place":place,

@@ -33,6 +33,7 @@ class BookPartyController extends Controller
         $bookPartyId = $request->get('bookPartyId');
         $user = $request->user();
         if(!$bookParty = BookParty::getBookPartyWhenLogin($bookPartyId, $user ? $user->id : null)) {
+
             return RJM(1, null, '找不到该读书会');
         }
 
@@ -60,6 +61,7 @@ class BookPartyController extends Controller
     /**
      * 报名
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function signup(Request $request) {
         $messages = [
@@ -101,6 +103,7 @@ class BookPartyController extends Controller
     /**
      * 签到
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function checkin(Request $request) {
         $messages = [
@@ -262,7 +265,7 @@ class BookPartyController extends Controller
         $maxUser = $request->get('maxUser') ? $request->get('maxUser') : 0;
         $checkinCode = Str::random(20);
 
-        BookParty::where('bookPartyId', $bookPartyId)->update([
+        BookParty::where('id', $bookPartyId)->update([
             'title' => $title,
             'speaker' => $speaker,
             'place' => $place,
@@ -271,7 +274,6 @@ class BookPartyController extends Controller
             'max_user' => $maxUser,
             'checkin_code' => $checkinCode
         ]);
-
         return RJM(0);
     }
 
@@ -289,12 +291,8 @@ class BookPartyController extends Controller
 
         $bookPartyId = $request->get('bookPartyId');
         $bookParty = BookParty::where('id', '=', $bookPartyId)->where('status', '=', '0')->first();
-        $user = $request->user();
         if (!$bookParty) {
             return RJM(1, null, '找不到读书会');
-        }
-        if (!$user) {
-            return RJM(1, null, '请先登录');
         }
         $bookParty->delete();
 
