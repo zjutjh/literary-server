@@ -21,18 +21,18 @@ class BookPartyController extends Controller
 
     public function detail(Request $request) {
         $messages = [
-            'id.required' => '错误的参数'
+            'bookPartyId.required' => '错误的参数'
         ];
         $validator = Validator::make($request->all(), [
-            'id' => 'required'
+            'bookPartyId' => 'required'
         ], $messages);
         if ($validator->fails()) {
             $errors = $validator->errors();
             return RJM(1, null, $errors->first());
         }
-        $id = $request->get('id');
+        $bookPartyId = $request->get('bookPartyId');
         $user = $request->user();
-        if(!$bookParty = BookParty::getBookPartyWhenLogin($id, $user->id)) {
+        if(!$bookParty = BookParty::getBookPartyWhenLogin($bookPartyId, $user->id)) {
 
             return RJM(1, null, '找不到该读书会');
         }
@@ -75,7 +75,7 @@ class BookPartyController extends Controller
             return RJM(1, null, $errors->first());
         }
 
-        $bookPartyId = $request->get('id');
+        $bookPartyId = $request->get('bookPartyId');
         $bookParty = BookParty::where('id', '=', $bookPartyId)->where('status', '=', '0')->first();
         $user = $request->user();
         if (!$bookParty) {
@@ -256,7 +256,7 @@ class BookPartyController extends Controller
             $errors = $validator->errors();
             return RJM(1, null, $errors->first());
         }
-        $bookPartyId = $request->get('id');
+        $bookPartyId = $request->get('bookPartyId');
         $title = $request->get('title');
         $speaker = $request->get('speaker');
         $startTime = Carbon::parse($request->get('startTime'));
@@ -265,7 +265,6 @@ class BookPartyController extends Controller
         $maxUser = $request->get('maxUser') ? $request->get('maxUser') : 0;
         $checkinCode = Str::random(20);
 
-        //dd($bookPartyId);
         BookParty::where('id', $bookPartyId)->update([
             'title' => $title,
             'speaker' => $speaker,
