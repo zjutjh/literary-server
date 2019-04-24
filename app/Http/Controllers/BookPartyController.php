@@ -32,7 +32,7 @@ class BookPartyController extends Controller
         }
         $bookPartyId = $request->get('bookPartyId');
         $user = $request->user();
-        if(!$bookParty = BookParty::getBookPartyWhenLogin($bookPartyId, $user->id)) {
+        if(!$bookParty = BookParty::getBookPartyWhenLogin($bookPartyId,$user ? $user->id : null)) {
 
             return RJM(1, null, '找不到该读书会');
         }
