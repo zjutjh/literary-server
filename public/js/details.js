@@ -50,6 +50,12 @@ window.onload = function() {
             $("#timeH").val(time.substr(0,time.lastIndexOf(":")));
             $("#desc").val(data.summary);
             $("#limitNum").val(data.maxUser);
+            $('#qrcode').qrcode({
+                render: "canvas",
+                width: 200,
+                height: 200,
+                text: data.checkin_code
+            });
             // $("#code").val(data.checkinCode)
         }
     })
