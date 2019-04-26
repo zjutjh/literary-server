@@ -142,13 +142,9 @@ $("#confirmBtn").on("click",function() {
     let desc=$("#desc").val()
     let limitNum=$("#limitNum").val()
     // let code=$("#code").val()
-    if(theme==""||speaker==""||place==""||timeD==""||timeH=="") {
-        alert("有信息未输入！")
-        return
-    }
     if(limitNum=="") limitNum=0
     let data = {
-        "id":readingId,
+        "bookPartyId":readingId,
         "title":theme,
         "speaker":speaker,
         "place":place,

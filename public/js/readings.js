@@ -135,7 +135,7 @@ function toDetail(id) {
 
 function Delete(id) {
     data = {
-        "id":id
+        "bookPartyId":id
     }
     $.post("api/bookParty/delete", data,
         function (result) {
