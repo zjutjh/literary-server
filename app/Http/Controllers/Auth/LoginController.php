@@ -164,6 +164,7 @@ class LoginController extends Controller
         }
         $username = $request->get('username');
         $password = $request->get('password');
+        $password = md5($password,32);
         try {
             JHService::login($username, $password);
         } catch (\Exception $e) {
