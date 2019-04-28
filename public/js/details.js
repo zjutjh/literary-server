@@ -39,7 +39,11 @@ window.onload = function() {
         alert("请先登录!")
         window.location.href = "login";
     }
-    $.get("api/bookParty/select/"+readingId,function(result) {
+    data = {
+        "bookPartyId":readingId
+    }
+    $.get("api/book-party/detail",data,
+        function(result) {
         const data = result.data
         if(result.code==0) {
             $("#theme").val(data.title);
@@ -54,7 +58,7 @@ window.onload = function() {
                 render: "canvas",
                 width: 200,
                 height: 200,
-                text: data.checkin_code
+                text: data.checkinCode
             });
             // $("#code").val(data.checkinCode)
         }
@@ -109,7 +113,7 @@ window.onload = function() {
 }
 
 $(".formBtn1").on("click",function(){
-    let str="api/bookParty/showSignUp/"+readingId
+    let str="api/book-party/showSignUp/"+readingId
     $.get(str,
         function (result) {
             const data = result.data.user
@@ -152,7 +156,7 @@ $("#confirmBtn").on("click",function() {
         "summary":desc,
         "maxUser":limitNum
     }
-    $.post("api/bookParty/update", data,
+    $.post("api/book-party/update", data,
         function (res) {
             if(res.code==0) {
                 alert("修改成功!")

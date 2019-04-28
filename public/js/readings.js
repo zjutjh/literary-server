@@ -14,11 +14,11 @@ $(document).ready(function() {
         alert("请先登录!")
         window.location.href = "login";
     }
-    $.get("api/bookParty/list",
+    $.get("api/book-party/list",
         function (result) {
             console.log(result)
             if(result.code==0) {
-                const data = result.data.bookParties
+                const data = result.data
                 data.forEach(element => {
                     let template =
                     `
@@ -115,7 +115,7 @@ function addReading() {
         "summary":desc,
         "maxUser":limitNum
     }
-    $.post("api/bookParty/add", data,
+    $.post("api/book-party/add", data,
         function (res) {
             if(res.code==0) {
                 alert("添加成功!")
@@ -137,7 +137,7 @@ function Delete(id) {
     data = {
         "bookPartyId":id
     }
-    $.post("api/bookParty/delete", data,
+    $.post("api/book-party/delete", data,
         function (result) {
             if(result.code==0) {
                 alert("删除成功!")

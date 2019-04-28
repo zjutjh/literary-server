@@ -15,4 +15,7 @@ class UserAdmin extends Model
     protected $hidden = [
 //
     ];
+    public function isAdmin(){
+        return $this->is_admin ==='Y';
+    }
 }

@@ -192,22 +192,7 @@ class BookPartyController extends Controller
         return RJM(0);
     }
 
-//    显示所有读书会信息
-    public function showBookParty(){
 
-        $bookParties = BookParty::get();
-        return RJM(0,
-            ['bookParties' => $bookParties]);
-    }
-
-
-
-//    选择一个读书会并显示其详细信息
-    public function select($id){
-
-        $party = BookParty::where('id',$id)->first();
-        return RJM(0,$party);
-    }
 
 //    显示指定读书会的报名人员
     public function showSignUp($id){
@@ -298,4 +283,6 @@ class BookPartyController extends Controller
 
         return RJM(0);
     }
+
 }
+
