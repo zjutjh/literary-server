@@ -31,15 +31,14 @@ Route::middleware('cors')->group(function () {
 
 
     // 管理员相关
-//    Route::middleware('admin')->group(function () {
+    Route::middleware('admin')->group(function () {
         Route::get('admin/show','AdminController@showAdmin');
-
         Route::post('book-party/add', 'BookPartyController@add');
         Route::post('book-party/update', 'BookPartyController@update');
         Route::post('book-party/delete', 'BookPartyController@delete');
         Route::get('book-party/showSignUp/{id}','BookPartyController@showSignUp');
 
-//    });
+    });
 
     // 需要登录的控制器
     Route::middleware('auth:api')->group(function () {
