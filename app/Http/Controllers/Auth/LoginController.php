@@ -220,7 +220,7 @@ class LoginController extends Controller
                 return RJM(1, null, 'token生成错误');
             }
             return RJM(0, [
-//                'token' => $token,
+                'token' => $token,
                 'user' => $user
             ]);
         }else{

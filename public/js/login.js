@@ -21,8 +21,7 @@ function login() {
         function (result) {
             const data=result.data;
             if(!result.code) {
-                sessionStorage['username'] = data.username
-                console.log(sessionStorage['username'])
+                sessionStorage['token'] = data.token
                 location.href = 'admin'
             } else alert(result.error)
         }

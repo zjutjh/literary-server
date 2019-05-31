@@ -10,22 +10,29 @@ $("#timeD").datepicker({
 })
 
 $(document).ready(function() {
-    if(sessionStorage['username']==null) {
+    if(sessionStorage['token']==null) {
         alert("请先登录!")
         window.location.href = "login";
+    } else {
+        token = sessionStorage['token']
     }
-    $.get("api/book-party/list",
-        function (result) {
+    $.ajax({
+        url: "api/book-party/list",
+        type: "GET",
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+        },
+        success: function (result) {
             console.log(result)
-            if(result.code==0) {
+            if (result.code == 0) {
                 const data = result.data
                 data.forEach(element => {
                     let template =
-                    `
+                        `
                     <td>${element.title}</td>
                     <td>${element.speaker}</td>
                     <td>${element.place}</td>
-                    <td>${element.startTime.substr(0,element.startTime.lastIndexOf(":"))}</td>
+                    <td>${element.startTime.substr(0, element.startTime.lastIndexOf(":"))}</td>
                     <td>${element.summary}</td>
                     <td>${element.maxUser}</td>
                     <td>
@@ -40,7 +47,7 @@ $(document).ready(function() {
                 })
             } else alert(result.error)
         }
-    );
+    });
     $('#rightForm').bootstrapValidator({
 　　　　 message: 'This value is not valid',
         feedbackIcons: {
@@ -115,14 +122,20 @@ function addReading() {
         "summary":desc,
         "maxUser":limitNum
     }
-    $.post("api/book-party/add", data,
-        function (res) {
-            if(res.code==0) {
+    $.ajax({
+        url:"api/book-party/add",
+        data: data,
+        type: "POST",
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+        },
+        success: function(res) {
+            if (res.code == 0) {
                 alert("添加成功!")
                 window.location.reload()
             } else alert(res.error)
         }
-    );
+    });
 }
 
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
@@ -137,12 +150,18 @@ function Delete(id) {
     data = {
         "bookPartyId":id
     }
-    $.post("api/book-party/delete", data,
-        function (result) {
-            if(result.code==0) {
+    $.ajax({
+        url: "api/book-party/delete",
+        type: "POST",
+        data: data,
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+        },
+        success: function(result) {
+            if (result.code == 0) {
                 alert("删除成功!")
             } else alert(result.error)
         }
-    );
+    });
     window.location.reload()
 }

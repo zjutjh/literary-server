@@ -35,32 +35,41 @@ $(".rightNav a").on("click",function(){
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
 window.onload = function() {
-    if(sessionStorage['username']==null) {
+    if(sessionStorage['token']==null) {
         alert("请先登录!")
         window.location.href = "login";
+    } else {
+        token = sessionStorage['token']
     }
     data = {
         "bookPartyId":readingId
     }
-    $.get("api/book-party/detail",data,
-        function(result) {
-        const data = result.data
-        if(result.code==0) {
-            $("#theme").val(data.title);
-            $("#speaker").val(data.speaker);
-            $("#place").val(data.place);
-            $("#timeD").val(data.startTime.substr(0,data.startTime.indexOf(" ")));
-            let time=data.startTime.substr(data.startTime.indexOf(" ")+1);
-            $("#timeH").val(time.substr(0,time.lastIndexOf(":")));
-            $("#desc").val(data.summary);
-            $("#limitNum").val(data.maxUser);
-            $('#qrcode').qrcode({
-                render: "canvas",
-                width: 200,
-                height: 200,
-                text: data.checkinCode
-            });
-            // $("#code").val(data.checkinCode)
+    $.ajax({
+        url: "api/book-party/detail",
+        type: "POST",
+        data: data,
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+        },
+        success: function(result) {
+            const data = result.data
+            if(result.code==0) {
+                $("#theme").val(data.title);
+                $("#speaker").val(data.speaker);
+                $("#place").val(data.place);
+                $("#timeD").val(data.startTime.substr(0,data.startTime.indexOf(" ")));
+                let time=data.startTime.substr(data.startTime.indexOf(" ")+1);
+                $("#timeH").val(time.substr(0,time.lastIndexOf(":")));
+                $("#desc").val(data.summary);
+                $("#limitNum").val(data.maxUser);
+                $('#qrcode').qrcode({
+                    render: "canvas",
+                    width: 200,
+                    height: 200,
+                    text: data.checkinCode
+                });
+                // $("#code").val(data.checkinCode)
+            }
         }
     })
     $('#rightForm').bootstrapValidator({
@@ -114,14 +123,19 @@ window.onload = function() {
 
 $(".formBtn1").on("click",function(){
     let str="api/book-party/showSignUp/"+readingId
-    $.get(str,
-        function (result) {
+    $.ajax({
+        url: str,
+        type: "GET",
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+        },
+        success: function(result) {
             const data = result.data.user
             console.log(data)
-            if(result.code==0) {
+            if (result.code == 0) {
                 data.forEach(element => {
-                    let template = 
-                    `
+                    let template =
+                        `
                     <td>${element.institute}</td>
                     <td>${element.name}</td>
                     <td>${element.sid}</td>
@@ -134,7 +148,7 @@ $(".formBtn1").on("click",function(){
                 })
             } else alert(result.error)
         }
-    );
+    });
 })
 
 $("#confirmBtn").on("click",function() {
@@ -156,13 +170,19 @@ $("#confirmBtn").on("click",function() {
         "summary":desc,
         "maxUser":limitNum
     }
-    $.post("api/book-party/update", data,
-        function (res) {
-            if(res.code==0) {
+    $.ajax({
+        url: "api/book-party/update",
+        type: "POST",
+        data: data,
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+        },
+        success: function(res) {
+            if (res.code == 0) {
                 alert("修改成功!")
             } else alert(res.error)
         }
-    );
+    });
 })
 
 $(".rightNav a").on("click",function(){
