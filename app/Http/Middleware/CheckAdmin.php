@@ -33,7 +33,7 @@ class CheckAdmin extends BaseMiddleware
                 // 刷新用户的 token
                 $token = $this->auth->refresh();
                 // 使用一次性登录以保证此次请求的成功
-                Auth::guard('web')->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
+                Auth::guard('admin')->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
             } catch (JWTException $e) {
                 return RJM(-402, null, '缺少登录凭证');
             }

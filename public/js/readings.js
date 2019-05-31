@@ -45,7 +45,11 @@ $(document).ready(function() {
                     const render_dom = document.querySelector('tbody')
                     render_dom.appendChild(child)
                 })
-            } else alert(result.error)
+            } else {
+                alert(result.error);
+                if(result.code==402||result.code==403)
+                    window.location.href = "login";
+            }
         }
     });
     $('#rightForm').bootstrapValidator({
@@ -133,7 +137,11 @@ function addReading() {
             if (res.code == 0) {
                 alert("添加成功!")
                 window.location.reload()
-            } else alert(res.error)
+            } else {
+                alert(result.error);
+                if(result.code==402||result.code==403)
+                    window.location.href = "login";
+            }
         }
     });
 }
@@ -160,7 +168,11 @@ function Delete(id) {
         success: function(result) {
             if (result.code == 0) {
                 alert("删除成功!")
-            } else alert(result.error)
+            } else {
+                alert(result.error);
+                if(result.code==402||result.code==403)
+                    window.location.href = "login";
+            }
         }
     });
     window.location.reload()

@@ -11,8 +11,8 @@ window.onload = function() {
             xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
         },
         success: function(result) {
-            const data = result.data.admins
             if (result.code == 0) {
+                const data = result.data.admins
                 data.forEach(element => {
                     let template =
                         `
@@ -24,7 +24,11 @@ window.onload = function() {
                     const render_dom = document.querySelector('tbody')
                     render_dom.appendChild(child)
                 })
-            } else alert(result.error)
+            } else {
+                alert(result.error);
+                if(result.code==-402||result.code==-403)
+                    window.location.href = "login";
+            }
         }
     });
 //     $('#rightForm').bootstrapValidator({

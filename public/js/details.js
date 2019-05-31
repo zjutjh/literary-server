@@ -69,6 +69,10 @@ window.onload = function() {
                     text: data.checkinCode
                 });
                 // $("#code").val(data.checkinCode)
+            } else {
+                alert(result.error);
+                if(result.code==402||result.code==403)
+                    window.location.href = "login";
             }
         }
     })
@@ -146,7 +150,11 @@ $(".formBtn1").on("click",function(){
                     const render_dom = document.querySelector('tbody')
                     render_dom.appendChild(child)
                 })
-            } else alert(result.error)
+            } else {
+                alert(result.error);
+                if(result.code==402||result.code==403)
+                    window.location.href = "login";
+            }
         }
     });
 })
@@ -180,7 +188,11 @@ $("#confirmBtn").on("click",function() {
         success: function(res) {
             if (res.code == 0) {
                 alert("修改成功!")
-            } else alert(res.error)
+            } else {
+                alert(result.error);
+                if(result.code==402||result.code==403)
+                    window.location.href = "login";
+            }
         }
     });
 })
