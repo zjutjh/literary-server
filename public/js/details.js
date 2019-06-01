@@ -46,7 +46,7 @@ window.onload = function() {
     }
     $.ajax({
         url: "api/book-party/detail",
-        type: "POST",
+        type: "GET",
         data: data,
         beforeSend: function (xmlhttprequest) {
             xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)

@@ -24,7 +24,7 @@ Route::middleware('cors')->group(function () {
 
     // 读书会相关
     Route::get('book-party/list', 'BookPartyController@list');
-    Route::post('book-party/detail', 'BookPartyController@detail');
+    Route::get('book-party/detail', 'BookPartyController@detail');
 
     // 学院相关
     Route::get('institute/list', 'InstituteController@list');
