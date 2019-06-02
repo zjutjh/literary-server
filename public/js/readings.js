@@ -20,7 +20,7 @@ $(document).ready(function() {
         url: "api/book-party/list",
         type: "GET",
         beforeSend: function (xmlhttprequest) {
-            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function (result) {
             console.log(result)
@@ -131,7 +131,7 @@ function addReading() {
         data: data,
         type: "POST",
         beforeSend: function (xmlhttprequest) {
-            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function(res) {
             if (res.code == 0) {
@@ -163,7 +163,7 @@ function Delete(id) {
         type: "POST",
         data: data,
         beforeSend: function (xmlhttprequest) {
-            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function(result) {
             if (result.code == 0) {

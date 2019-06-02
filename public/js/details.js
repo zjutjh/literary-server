@@ -49,7 +49,7 @@ window.onload = function() {
         type: "GET",
         data: data,
         beforeSend: function (xmlhttprequest) {
-            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function(result) {
             const data = result.data
@@ -131,7 +131,7 @@ $(".formBtn1").on("click",function(){
         url: str,
         type: "GET",
         beforeSend: function (xmlhttprequest) {
-            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function(result) {
             const data = result.data.user
@@ -183,7 +183,7 @@ $("#confirmBtn").on("click",function() {
         type: "POST",
         data: data,
         beforeSend: function (xmlhttprequest) {
-            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function(res) {
             if (res.code == 0) {

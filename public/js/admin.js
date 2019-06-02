@@ -8,7 +8,7 @@ window.onload = function() {
     $.ajax({
         url:"api/admin/show",
         beforeSend: function (xmlhttprequest) {
-            xmlhttprequest.setRequestHeader("Authorization", "Bearer"+token)
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function(result) {
             if (result.code == 0) {
