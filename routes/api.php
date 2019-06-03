@@ -45,7 +45,7 @@ Route::middleware('cors')->group(function () {
         Route::get('/user', function (Request $request) {
             return RJM(0, [
                 'user' => $request->user(),
-                'token' => auth()->refresh()
+                'token' => auth('api')->refresh()
             ]);
         });
         Route::get('user/book-party/sign-up', 'BookPartyController@getSignupListByUser');
