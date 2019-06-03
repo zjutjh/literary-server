@@ -5,8 +5,9 @@ use App\User;
 use App\UserAdmin;
 use App\UserLink;
 use Exception;
-use Validator;
-use JWTAuth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -164,6 +165,7 @@ class LoginController extends Controller
         }
         $username = $request->get('username');
         $password = $request->get('password');
+        $password = md5($password,32);
         try {
             JHService::login($username, $password);
         } catch (\Exception $e) {
@@ -207,13 +209,22 @@ class LoginController extends Controller
         }
         $username = $request->get('username');
         $password = $request->get('password');
-        if (!$user = UserAdmin::where('username',$username)->first()){
-            return RJM(1, null, '用户不存在');
-        }else if ($user->password != $password){
-            return RJM(1, null, '用户密码错误');
+
+        if (Auth::guard('admin')->attempt(['username' => $username,'password' => $password])){
+            $user = UserAdmin::where('username',$username)->first();
+            try {
+                if (!$token = JWTAuth::fromUser($user)) {
+                    return RJM(1, null, '用户错误');
+                }
+            } catch (JWTException $e) {
+                return RJM(1, null, 'token生成错误');
+            }
+            return RJM(0, [
+                'token' => $token,
+                'user' => $user
+            ]);
         }else{
-//            $request->session()->put('is_admin', "true");
-            return RJM(0,$user);
+            return RJM(1, $username, '用户密码错误');
         }
     }
 

@@ -1,15 +1,21 @@
 window.onload = function() {
-    if(sessionStorage['username']==null) {
+    if(sessionStorage['token']==null) {
         alert("请先登录!")
         window.location.href = "login";
+    } else {
+        token = sessionStorage['token']
     }
-    $.get("api/admin/show",
-        function (result) {
-            const data = result.data.admins
-            if(result.code==0) {
+    $.ajax({
+        url:"api/admin/show",
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
+        },
+        success: function(result) {
+            if (result.code == 0) {
+                const data = result.data.admins
                 data.forEach(element => {
-                    let template = 
-                    `
+                    let template =
+                        `
                     <td>${element.name}</td>
                     <td>${element.username}</td>
                     `
@@ -18,9 +24,13 @@ window.onload = function() {
                     const render_dom = document.querySelector('tbody')
                     render_dom.appendChild(child)
                 })
-            } else alert(result.error)
+            } else {
+                alert(result.error);
+                if(result.code==-402||result.code==-403)
+                    window.location.href = "login";
+            }
         }
-    );
+    });
 //     $('#rightForm').bootstrapValidator({
 // 　　　　 message: 'This value is not valid',
 //         feedbackIcons: {

@@ -16,6 +16,4 @@ class AdminController extends Controller
         return RJM(0,
             ['admins' => $admins]);
     }
-
-
 }

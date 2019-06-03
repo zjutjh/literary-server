@@ -3,8 +3,16 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
-class CheckAdmin
+class CheckAdmin extends BaseMiddleware
+
 {
     /**
      * Handle an incoming request.
@@ -15,14 +23,26 @@ class CheckAdmin
      */
     public function handle($request, Closure $next)
     {
-        // TODO 如何验证是管理员
-        return $next($request);
-//        if ($user = $request->user()) {
-//            if ($user->isAdmin) {
-//                return $next($request);
-//            }
-//            return RJM(1, null, '不是管理员');
-//        }
-//        return RJM(1, null, '请先登录');
+        $this->checkForToken($request);
+        try {
+            if ($this->auth->parseToken()->authenticate()) {
+                return $next($request);
+            }
+        } catch (TokenExpiredException $e) {
+            try {
+                // 刷新用户的 token
+                $token = $this->auth->refresh();
+                // 使用一次性登录以保证此次请求的成功
+                Auth::guard('admin')->onceUsingId($this->auth->manager()->getPayloadFactory()->buildClaimsCollection()->toPlainArray()['sub']);
+            } catch (JWTException $e) {
+                return RJM(-402, null, '缺少登录凭证');
+            }
+        } catch (TokenInvalidException $e) {
+            return RJM(-403, null, '登录凭证不合法');
+        } catch (JWTException $e) {
+            return RJM(-402, null, '缺少登录凭证');
+        }
+        return $this->setAuthenticationHeader($next($request), $token);
     }
+
 }

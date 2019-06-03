@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 Route::middleware('cors')->group(function () {
     // 登录相关
     Route::post('login', 'Auth\LoginController@login');
+    Route::post('admin/login','Auth\LoginController@adminLogin');
     Route::any('oauth/weapp/code', 'Auth\OauthController@weapp');
     Route::post('login/oauth/weapp', 'Auth\LoginController@loginByWeappOpenid');
     Route::post('login/weapp', 'Auth\LoginController@loginWithCode');
@@ -30,9 +32,12 @@ Route::middleware('cors')->group(function () {
 
     // 管理员相关
     Route::middleware('admin')->group(function () {
+        Route::get('admin/show','AdminController@showAdmin');
         Route::post('book-party/add', 'BookPartyController@add');
         Route::post('book-party/update', 'BookPartyController@update');
         Route::post('book-party/delete', 'BookPartyController@delete');
+        Route::get('book-party/showSignUp/{id}','BookPartyController@showSignUp');
+
     });
 
     // 需要登录的控制器
@@ -50,3 +55,4 @@ Route::middleware('cors')->group(function () {
 
 // 找不到路由的兜底
 Route::fallback('Controller@notFound');
+
