@@ -140,7 +140,7 @@ $(".formBtn1").on("click",function(){
                 data.forEach(element => {
                     let template =
                         `
-                    <td>${element.institute}</td>
+                    <td>${element.institute ? element.institute.name : '空'}</td>
                     <td>${element.name}</td>
                     <td>${element.sid}</td>
                     <td>${element.mobile}</td>
