@@ -17,7 +17,7 @@ use Carbon\Carbon;
 class BookPartyController extends Controller
 {
     public function list() {
-        return RJM(0, BookParty::where('status', '=', '0')->get());
+        return RJM(0, BookParty::where('status', '=', '0')->orderBy('start_time', 'desc')->get());
     }
 
     public function detail(Request $request) {
