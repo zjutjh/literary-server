@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="header navbar-fixed-top">
-        <h3 class="col-sm-6">书香工大后台管理系统 <small>by Webber</small></h3>
+        <h3 class="col-sm-6">书香工大后台管理系统 <small>by Weber</small></h3>
         <ul class="col-sm-6 header-nav">
             <li>
                 <a href="javascript:void(0)">消息</a>
