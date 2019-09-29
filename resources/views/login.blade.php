@@ -7,29 +7,37 @@
     <meta name="api-token" content="{{ Auth::check() ? 'Bearer '.JWTAuth::fromUser(Auth::user()) : '' }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>login</title>
-    <link rel="stylesheet" href="{{URL::asset('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{URL::asset('css/login.css')}}">
 </head>
 <body>
-    <div class="container">
-        <h1 class="form-signin-heading">管理员登录</h1>
-        <form id="form1" class="form-horizontal form-signin" onsubmit="return false">
+    <div class="header">
+        <h3>书香工大后台管理系统 <small>by Webber</small></h3>
+    </div>
+    <div class="form-arr">
+        <div class="form-heading">
+            <h3>管理员登录</h3>
+        </div>
+        <form id="form1" class="form-horizontal" onsubmit="return false">
             <div class="form-group">
-                <label class="col-sm-1 control-label" for="username">账号</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" name="username" placeholder="账号">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <input type="text" class="form-control" name="username" id="username" placeholder="账号">
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-1 control-label" for="password">密码</label>
-                <div class="col-sm-4">
-                    <input type="password" class="form-control" name="password" placeholder="密码">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="密码">
                 </div>
             </div>
-            <button class="btn btn-primary btn-block" onclick="login()" style="width:44%;">登录</button>
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <button class="btn btn-primary btn-block" onclick="login()">登录</button>
+                </div>
+            </div>
         </form>
     </div>
     <script src="{{URL::asset('js/jquery.js')}}"></script>
-    <script src="{{URL::asset('js/bootstrap.min.js')}}"></script>
+    <script src="{{URL::asset('bootstrap/js/bootstrap.min.js')}}"></script>
     <script src="{{URL::asset('js/login.js')}}"></script>
 </body>
 </html>

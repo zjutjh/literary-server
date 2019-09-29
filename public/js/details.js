@@ -61,7 +61,7 @@ window.onload = function() {
                 let time=data.startTime.substr(data.startTime.indexOf(" ")+1);
                 $("#timeH").val(time.substr(0,time.lastIndexOf(":")));
                 $("#desc").val(data.summary);
-                $("#limitNum").val(data.maxUser);
+                $("#limitNum").val(data.maxUser||'无限制');
                 $('#qrcode').qrcode({
                     render: "canvas",
                     width: 200,
@@ -115,7 +115,7 @@ window.onload = function() {
             limitNum: {
                 validators: {
                     regexp: {
-                        regexp: /^[0-9]+$/,                        
+                        regexp: /^[0-9]+$/,
                         message: '请输入数字'
                     }
                 }

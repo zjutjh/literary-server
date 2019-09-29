@@ -1,0 +1,63 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.header {
+    background-color: #3f92d2;
+    color: #ffffff;
+    height: 60px;
+    box-shadow: 0 0 15px #05326d;
+}
+
+.header small {
+    color: #ffffff;
+}
+
+.header h3 {
+    margin-top: 0;
+    line-height: 60px;
+    padding-left: 40px;
+}
+
+.form-arr {
+    position: absolute;
+    margin: auto;
+    width: 26%;
+    height: 280px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 0 10px #9f9f9f;
+
+}
+
+.form-heading {
+    text-align: center;
+    height: 40px;
+    border-bottom: 2px solid #337ab7;
+    color: #337ab7;
+}
+
+.form-heading h3 {
+    margin-top: 0;
+    line-height: 40px;
+}
+
+.form-group {
+    margin-top: 20px;
+}
+
+.form-group > a {
+    color: #9f9f9f;
+}
+
+.form-group > a:last-child {
+    text-align: end;
+}

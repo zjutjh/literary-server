@@ -23,7 +23,6 @@ $(document).ready(function() {
             xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function (result) {
-            console.log(result)
             if (result.code == 0) {
                 const data = result.data
                 data.forEach(element => {
@@ -34,7 +33,7 @@ $(document).ready(function() {
                     <td>${element.place}</td>
                     <td>${element.startTime.substr(0, element.startTime.lastIndexOf(":"))}</td>
                     <td>${element.summary}</td>
-                    <td>${element.maxUser}</td>
+                    <td>${element.maxUser||'无限制'}</td>
                     <td>
                         <button class="btn btn-default" onclick="toDetail(${element.id})">查看</button>
                         <button class="btn btn-default" onclick="Delete(${element.id})">删除</button>
@@ -91,7 +90,7 @@ $(document).ready(function() {
             limitNum: {
                 validators: {
                     regexp: {
-                        regexp: /^[0-9]+$/,                        
+                        regexp: /^[0-9]+$/,
                         message: '请输入数字'
                     }
                 }
