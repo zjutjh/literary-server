@@ -23,7 +23,7 @@ function login() {
             const data=result.data;
             if(!result.code) {
                 sessionStorage['token'] = data.token
-                location.href = 'admin'
+                location.href = 'readings'
             } else alert(result.error)
         }
     );

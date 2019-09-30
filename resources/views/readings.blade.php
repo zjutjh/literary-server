@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="desc">简介</label>
+                                <label class="col-sm-2 control-label" for="desc">简介*</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" name="desc" id="desc" placeholder="简介">
                                 </div>
