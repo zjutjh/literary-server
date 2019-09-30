@@ -112,10 +112,17 @@ window.onload = function() {
                     }
                 }
             },
+            desc: {
+                validators: {
+                    notEmpty: {
+                        message: '简介不能为空'
+                    }
+                }
+            },
             limitNum: {
                 validators: {
                     regexp: {
-                        regexp: /^[0-9]+$/,
+                        regexp: /(^[0-9]+$)|(^无限制$)/,
                         message: '请输入数字'
                     }
                 }
@@ -168,7 +175,7 @@ $("#confirmBtn").on("click",function() {
     let desc=$("#desc").val()
     let limitNum=$("#limitNum").val()
     // let code=$("#code").val()
-    if(limitNum=="") limitNum=0
+    if(limitNum==""||limitNum=="无限制") limitNum=0
     let data = {
         "bookPartyId":readingId,
         "title":theme,
@@ -188,6 +195,7 @@ $("#confirmBtn").on("click",function() {
         success: function(res) {
             if (res.code == 0) {
                 alert("修改成功!")
+                window.location.reload()
             } else {
                 alert(result.error);
                 if(result.code==402||result.code==403)
