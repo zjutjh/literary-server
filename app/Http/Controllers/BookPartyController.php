@@ -53,7 +53,7 @@ class BookPartyController extends Controller
 
     public function getCheckinListByUser(Request $request) {
         $user = $request->user();
-        $list = BookPartyCheckin::where('uid', $user->id)->orderBy('start_time', 'desc')->get();
+        $list = BookPartyCheckin::where('uid', $user->id)->get();
         foreach ($list as $key => $value) {
             $list[$key] = BookParty::getBookPartyWhenLogin($value->book_party_id, $user->id);
         }
