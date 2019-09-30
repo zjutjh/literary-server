@@ -86,7 +86,7 @@ class BookPartyController extends Controller
             return RJM(1, null, '请先登录');
         }
         $count = BookPartySignup::where('book_party_id', $bookPartyId)->count();
-        if ($bookParty->max_user && $bookParty->max_user >= $count) {
+        if ($bookParty->max_user && $bookParty->max_user <= $count) {
             return RJM(1, null, '超过最大报名人数');
         }
         if (BookPartySignup::where('uid', $user->id)->where('book_party_id', $bookPartyId)->first()) {

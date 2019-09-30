@@ -17,6 +17,7 @@ $.fn.serializeObject = function() {
 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
 
 function login() {
+    console.log(1)
     $.post("api/admin/login", $("form").serializeObject(),
         function (result) {
             const data=result.data;
