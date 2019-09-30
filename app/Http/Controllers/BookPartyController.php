@@ -37,6 +37,7 @@ class BookPartyController extends Controller
         return RJM(0, $bookParty);
     }
 
+
     public function getSignupListByUser(Request $request) {
         $user = $request->user();
         $list = BookPartySignup::where('uid', $user->id)->get();
