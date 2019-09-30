@@ -11,6 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+use Illuminate\Support\Facades\Route;
+
+
+
+Route::get('admin',function (){
+    return view('admin');
 });
+Route::get('details',function (){
+    return view('details');
+});
+//管理员登录
+Route::get('login',function (){
+    return view('login');
+});
+Route::get('readings',function (){
+    return view('readings');
+});
+

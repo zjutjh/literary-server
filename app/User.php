@@ -13,13 +13,14 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
 
     public static $snakeAttributes = false;
+//    protected $appends = ['institute'];
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'sid', 'name', 'mobile', 'is_admin'
+        'name', 'sid', 'mobile', 'institute_id'
     ];
 
     /**
@@ -38,8 +39,10 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
 //        'email_verified_at' => 'datetime',
-        'is_admin' => 'boolean',
+//        'is_admin' => 'boolean',
     ];
+
+    protected $appends = ['institute'];
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -66,8 +69,8 @@ class User extends Authenticatable implements JWTSubject
      * @param  integer $value
      * @return array
      */
-    public function getInstituteIdAttribute($value) {
-        $institute = Institute::where('id', $value)->first();
+    public function getInstituteAttribute($value) {
+        $institute = Institute::where('id', $this->attributes['institute_id'])->first();
 
         return $institute;
     }

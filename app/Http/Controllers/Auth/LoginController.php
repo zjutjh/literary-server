@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 use App\User;
+use App\UserAdmin;
 use App\UserLink;
-use Validator;
-use JWTAuth;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Services\JHService;
 use Illuminate\Http\Request;
 use App\Rules\Mobile;
+
+//use Tymon\JWTAuth\Facades\JWTAuth;
+
 
 class LoginController extends Controller
 {
@@ -32,6 +38,7 @@ class LoginController extends Controller
      *
      * @return void
      */
+
     public function __construct() {
         $this->middleware('guest')->except('logout');
     }
@@ -67,17 +74,27 @@ class LoginController extends Controller
         }
     }
 
-    public function loginWithOpenid(Request $request) {
+    public function weappGetOpenid($code) {
+        if(!$code) {
+            throw new Exception( 'code不存在');
+        }
+        $app = app('wechat.mini_program');
+        $result = $app->auth->session($code);
+
+        return $result['openid'];
+    }
+
+    public function loginWithCode(Request $request) {
         $messages = [
             'username.required' => '用户名不能为空',
             'password.required' => '用户名不能为空',
-            'openid' => '缺少openid',
+            'code' => '缺少code',
             'type' => '缺少类型',
         ];
         $validator = Validator::make($request->all(), [
             'username' => 'required',
             'password' => 'required',
-            'openid' => 'required',
+            'code' => 'required',
             'type' => 'required'
         ], $messages);
         if ($validator->fails()) {
@@ -86,7 +103,7 @@ class LoginController extends Controller
         }
         $username = $request->get('username');
         $password = $request->get('password');
-        $openid = $request->get('openid');
+        $code = $request->get('code');
         $type = $request->get('type');
         try {
             JHService::login($username, $password);
@@ -94,11 +111,24 @@ class LoginController extends Controller
             return RJM(1, null, $e->getMessage());
         }
 
+        try {
+            $func = $type . 'GetOpenid';
+            $openid = $this->$func($code);
+        } catch (\Exception $e) {
+            return RJM(1, null, '类型错误');
+        }
+
         // 检测是否存在用户，不存在则创建
         if(!$user = User::where('sid', $username)->first()) {
             $user = new User;
             $user->sid = $username;
             $user->save();
+            $userLink = new UserLink;
+            $userLink->uid = $user->id;
+            $userLink->type = $type;
+            $userLink->openid = $openid;
+            $userLink->save();
+        } else if (!$userLink = UserLink::where('uid', $user->id)->where('openid', $openid)->where('type', $type)->first()) {
             $userLink = new UserLink;
             $userLink->uid = $user->id;
             $userLink->type = $type;
@@ -123,7 +153,7 @@ class LoginController extends Controller
     public function login(Request $request) {
         $messages = [
             'username.required' => '用户名不能为空',
-            'password.required' => '用户名不能为空'
+            'password.required' => '密码不能为空'
         ];
         $validator = Validator::make($request->all(), [
             'username' => 'required',
@@ -135,6 +165,7 @@ class LoginController extends Controller
         }
         $username = $request->get('username');
         $password = $request->get('password');
+        $password = md5($password,32);
         try {
             JHService::login($username, $password);
         } catch (\Exception $e) {
@@ -161,4 +192,40 @@ class LoginController extends Controller
             'token' => $token
         ]);
     }
+
+//    管理员登录
+    public function adminLogin(Request $request){
+        $messages = [
+            'username.required' => '用户名不能为空',
+            'password.required' => '密码不能为空'
+        ];
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required'
+        ], $messages);
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            return RJM(1, null, $errors->first());
+        }
+        $username = $request->get('username');
+        $password = $request->get('password');
+
+        if (Auth::guard('admin')->attempt(['username' => $username,'password' => $password])){
+            $user = UserAdmin::where('username',$username)->first();
+            try {
+                if (!$token = JWTAuth::fromUser($user)) {
+                    return RJM(1, null, '用户错误');
+                }
+            } catch (JWTException $e) {
+                return RJM(1, null, 'token生成错误');
+            }
+            return RJM(0, [
+                'token' => $token,
+                'user' => $user
+            ]);
+        }else{
+            return RJM(1, $username, '用户密码错误');
+        }
+    }
+
 }

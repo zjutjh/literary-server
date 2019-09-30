@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,33 +14,48 @@ use Illuminate\Http\Request;
 |
 */
 
-// 登录相关
-Route::post('login', 'Auth\LoginController@login');
-Route::any('oauth/weapp/code', 'OauthController@weapp');
-Route::post('login/oauth/weapp', 'LoginController@loginByWeappOpenid');
-Route::post('login/weapp', 'LoginController@loginWithOpenid');
+Route::middleware('cors')->group(function () {
+    // 登录相关
+    Route::post('login', 'Auth\LoginController@login');
+    Route::post('admin/login','Auth\LoginController@adminLogin');
+    Route::any('oauth/weapp/code', 'Auth\OauthController@weapp');
+    Route::post('login/oauth/weapp', 'Auth\LoginController@loginByWeappOpenid');
+    Route::post('login/weapp', 'Auth\LoginController@loginWithCode');
 
-// 读书会相关
-Route::get('book-party/list', 'BookPartyController@list');
-Route::get('book-party/detail', 'BookPartyController@detail');
+    // 读书会相关
+    Route::get('book-party/list', 'BookPartyController@list');
+    Route::get('book-party/detail', 'BookPartyController@detail');
 
-// 管理员相关
-Route::middleware('admin')->group(function () {
-    Route::post('book-party/add', 'BookPartyController@add');
-    Route::post('book-party/update', 'BookPartyController@update');
-    Route::post('book-party/delete', 'BookPartyController@delete');
-});
+    // 学院相关
+    Route::get('institute/list', 'InstituteController@list');
 
-// 需要登录的控制器
-Route::middleware('auth:api')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return RJM(0, $request->user());
+
+    // 管理员相关
+    Route::middleware('admin')->group(function () {
+        Route::get('admin/show','AdminController@showAdmin');
+        Route::post('book-party/add', 'BookPartyController@add');
+        Route::post('book-party/update', 'BookPartyController@update');
+        Route::post('book-party/delete', 'BookPartyController@delete');
+        Route::get('book-party/showSignUp/{id}','BookPartyController@showSignUp');
+
     });
-    Route::post('user/book-party/sign-up', 'BookPartyController@getSignupListByUser');
-    Route::post('user/book-party/check-in', 'BookPartyController@getCheckinListByUser');
-    Route::post('book-party/sign-up', 'BookPartyController@signup');
-    Route::post('book-party/check-in', 'BookPartyController@checkin');
+
+    // 需要登录的控制器
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/user', function (Request $request) {
+            return RJM(0, [
+                'user' => $request->user(),
+                'token' => auth('api')->refresh()
+            ]);
+        });
+        Route::get('user/book-party/sign-up', 'BookPartyController@getSignupListByUser');
+        Route::get('user/book-party/check-in', 'BookPartyController@getCheckinListByUser');
+        Route::post('book-party/sign-up', 'BookPartyController@signup');
+        Route::post('book-party/check-in', 'BookPartyController@checkin');
+        Route::post('user/user-info', 'UserController@updateUserInfo');
+    });
 });
 
 // 找不到路由的兜底
 Route::fallback('Controller@notFound');
+

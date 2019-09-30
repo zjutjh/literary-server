@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Services;
 
+use Mockery\Exception;
+
 class JHService {
     static public function login($username, $password) {
         if (!$username OR !$password) {
@@ -9,7 +11,8 @@ class JHService {
         if (strstr($password, '../') != false) {
             throw new Exception('密码不允许带../');
         }
-        $url = 'http://user.jh.zjut.edu.cn/api.php';
+//        $url = 'http://user.jh.zjut.edu.cn/api.php';
+        $url = 'http://user.zjut.com/api.php';
         $data = [
             'app' => 'passport',
             'action' => 'login',
