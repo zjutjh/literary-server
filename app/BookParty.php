@@ -28,11 +28,15 @@ class BookParty extends Model
         return $value;
     }
 
-    static public function getBookPartyWhenLogin($id, $uid) {
+    static public function getBookPartyWhenLogin($id, $uid, $withTrashed=false) {
         if (!$id) {
             return null;
         }
-        $bookParty = BookParty::where('id', '=', $id)->where('status', '=', '0')->first();
+        if (!$withTrashed) {
+            $bookParty = BookParty::where('id', '=', $id)->where('status', '=', '0')->first();
+        } else {
+            $bookParty = BookParty::withTrashed()->where('id', '=', $id)->where('status', '=', '0')->first();
+        }
         if (!$bookParty) {
             return null;
         }
