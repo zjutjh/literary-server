@@ -98,6 +98,9 @@ $(document).ready(function() {
                     regexp: {
                         regexp: /^[0-9]+$/,
                         message: '请输入数字'
+                    },
+                    notEmpty: {
+                        message: '报名人数上限不能为空'
                     }
                 }
             }

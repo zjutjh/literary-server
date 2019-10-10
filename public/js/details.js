@@ -122,8 +122,11 @@ window.onload = function() {
             limitNum: {
                 validators: {
                     regexp: {
-                        regexp: /(^[0-9]+$)|(^无限制$)/,
+                        regexp: /^[0-9]+$/,
                         message: '请输入数字'
+                    },
+                    notEmpty: {
+                        message: '报名人数上限不能为空'
                     }
                 }
             }
@@ -175,7 +178,7 @@ $("#confirmBtn").on("click",function() {
     let desc=$("#desc").val()
     let limitNum=$("#limitNum").val()
     // let code=$("#code").val()
-    if(limitNum==""||limitNum=="无限制") limitNum=0
+    if(limitNum=="") limitNum=0
     let data = {
         "bookPartyId":readingId,
         "title":theme,

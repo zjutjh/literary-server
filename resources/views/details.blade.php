@@ -83,9 +83,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="limitNum">报名人数上限</label>
+                                <label class="col-sm-2 control-label" for="limitNum">报名人数上限*</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="limitNum" name="limitNum" placeholder="报名人数上限,不填即无限制" readonly>
+                                    <input type="text" class="form-control" id="limitNum" name="limitNum" placeholder="报名人数上限" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
