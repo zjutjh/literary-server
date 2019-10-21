@@ -93,7 +93,8 @@
                                 <div class="col-sm-4" id="qrcode">
                                 </div>
                             </div>
-                            <a class="btn btn-default formBtn1" data-toggle="collapse" data-target="#tableDiv">查看报名人员信息</a>
+                            <a class="btn btn-default" onclick="showUsers(0);">查看报名人员信息</a>
+                            <a class="btn btn-default" onclick="showUsers(1);">查看签到人员信息</a>
                             <a class="btn btn-default" id="modifyBtn">修改</a>
                             <button type="submit" class="btn btn-default" id="confirmBtn">确定</button>
                             <a class="btn btn-default" id="cancleBtn">取消</a>
@@ -119,6 +120,7 @@
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -130,6 +132,9 @@
     <script src="{{URL::asset('js/bootstrap-datepicker.zh-CN.min.js')}}"></script>
     <script src="{{URL::asset('js/bootstrapValidator.min.js')}}"></script>
     <script src="{{URL::asset('js/jquery.qrcode.min.js')}}"></script>
+    <script src="{{URL::asset('js/tableExport/tableExport.js')}}"></script>
+    <script src="{{URL::asset('js/tableExport/jquery.base64.js')}}"></script>
+    <script src="{{URL::asset('js/tableExport/mybase.js')}}"></script>
     <script src="{{URL::asset('js/details.js')}}"></script>
 </body>
 </html>

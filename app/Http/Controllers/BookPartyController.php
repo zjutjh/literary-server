@@ -223,7 +223,7 @@ class BookPartyController extends Controller
         $users= DB::table('users')
             ->join('book_party_checkin',function ($join) use ($id){
                 $join->on('users.id','=','book_party_checkin.uid')
-                    ->where('book_party_check.book_party_id','=',$id);
+                    ->where('book_party_checkin.book_party_id','=',$id);
             })->get();
         $data = [];
         foreach ($users as $user){

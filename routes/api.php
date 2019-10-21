@@ -37,7 +37,7 @@ Route::middleware('cors')->group(function () {
         Route::post('book-party/update', 'BookPartyController@update');
         Route::post('book-party/delete', 'BookPartyController@delete');
         Route::get('book-party/showSignUp/{id}','BookPartyController@showSignUp');
-        Route::get('book_party/showCheckIn/{id}','BookPartyController@showCheckIn');
+        Route::get('book-party/showCheckIn/{id}','BookPartyController@showCheckIn');
 
     });
 

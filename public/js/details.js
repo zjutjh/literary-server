@@ -1,4 +1,5 @@
 var readingId = localStorage.detailId;
+var user_signup,user_checkin
 
 $(".mainDiv ul li a").on("click",function () {
     $(".mainDiv ul li").siblings().removeClass("active");
@@ -129,34 +130,17 @@ window.onload = function() {
             }
         }
     });
-
-}
-
-$(".formBtn1").on("click",function(){
-    let str="api/book-party/showSignUp/"+readingId
+    let str1="api/book-party/showSignUp/"+readingId
+    let str2="api/book-party/showCheckIn/"+readingId
     $.ajax({
-        url: str,
+        url: str1,
         type: "GET",
         beforeSend: function (xmlhttprequest) {
             xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function(result) {
-            const data = result.data.user
-            console.log(data)
             if (result.code == 0) {
-                data.forEach(element => {
-                    let template =
-                        `
-                    <td>${element.institute}</td>
-                    <td>${element.name}</td>
-                    <td>${element.sid}</td>
-                    <td>${element.mobile}</td>
-                    `
-                    let child = document.createElement('tr')
-                    child.innerHTML = template
-                    const render_dom = document.querySelector('tbody')
-                    render_dom.appendChild(child)
-                })
+                user_signup = result.data.user
             } else {
                 alert(result.error);
                 if(result.code==402||result.code==403)
@@ -164,7 +148,54 @@ $(".formBtn1").on("click",function(){
             }
         }
     });
-})
+    $.ajax({
+        url: str2,
+        type: "GET",
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
+        },
+        success: function(result) {
+            if (result.code == 0) {
+                user_checkin = result.data.user
+            } else {
+                alert(result.error);
+                if(result.code==402||result.code==403)
+                    window.location.href = "login";
+            }
+        }
+    });
+}
+
+var removeAllChildren = function(render_dom) {
+    const childs = render_dom.childNodes;
+    for(let i = childs.length - 1; i >= 0; i--) {
+        render_dom.removeChild(childs[i]);
+    }
+}
+
+var showUsers = function(x) {
+    let data
+    if(!x) {
+        data = user_signup
+    } else {
+        data = user_checkin
+    }
+    const render_dom = document.querySelector('tbody')
+    removeAllChildren(render_dom)
+    data.forEach(element => {
+        const template =
+            `
+            <td>${element.institute}</td>
+            <td>${element.name}</td>
+            <td>${element.sid}</td>
+            <td>${element.mobile}</td>
+            `
+        let child = document.createElement('tr')
+        child.innerHTML = template
+        render_dom.appendChild(child)
+    })
+    $("#tableDiv").collapse('show')
+}
 
 $("#confirmBtn").on("click",function() {
     let theme=$("#theme").val()
