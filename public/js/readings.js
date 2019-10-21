@@ -33,7 +33,7 @@ $(document).ready(function() {
                     <td>${element.place}</td>
                     <td>${element.startTime.substr(0, element.startTime.lastIndexOf(":"))}</td>
                     <td>${element.summary}</td>
-                    <td>${element.maxUser||'无限制'}</td>
+                    <td>${element.maxUser}</td>
                     <td>
                         <button class="btn btn-default" onclick="toDetail(${element.id})">查看</button>
                     </td>

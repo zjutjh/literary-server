@@ -61,7 +61,7 @@ window.onload = function() {
                 let time=data.startTime.substr(data.startTime.indexOf(" ")+1);
                 $("#timeH").val(time.substr(0,time.lastIndexOf(":")));
                 $("#desc").val(data.summary);
-                $("#limitNum").val(data.maxUser||'无限制');
+                $("#limitNum").val(data.maxUser);
                 $('#qrcode').qrcode({
                     render: "canvas",
                     width: 200,
