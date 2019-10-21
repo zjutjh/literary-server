@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\Rule;
 
 class BookPartySignup extends Model
 {
@@ -11,4 +12,5 @@ class BookPartySignup extends Model
     protected $fillable = [
         'uid', 'book_party_id'
     ];
+
 }

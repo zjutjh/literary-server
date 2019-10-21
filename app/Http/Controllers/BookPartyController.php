@@ -219,6 +219,29 @@ class BookPartyController extends Controller
         return RJM(0,['user'=>$data]);
     }
 
+    public function showCheckIn($id){
+        $users= DB::table('users')
+            ->join('book_party_checkin',function ($join) use ($id){
+                $join->on('users.id','=','book_party_checkin.uid')
+                    ->where('book_party_check.book_party_id','=',$id);
+            })->get();
+        $data = [];
+        foreach ($users as $user){
+            $institute = DB::table('institutes')
+                ->where('id',$user->institute_id)
+                ->select('name')
+                ->first();
+            $data [] = array(
+                'sid' => $user->sid,
+                'name' => $user->name,
+                'mobile' => $user->mobile,
+                'institute' => $institute->name
+            );
+
+        }
+        return RJM(0,['user'=>$data]);
+    }
+
     /**
      * 更新
      * @param Request $request
