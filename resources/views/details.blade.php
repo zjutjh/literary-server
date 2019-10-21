@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="header navbar-fixed-top">
-        <h3 class="col-sm-6">书香工大后台管理系统 <small>by Webber</small></h3>
+        <h3 class="col-sm-6">书香工大后台管理系统 <small>by Weber</small></h3>
         <ul class="col-sm-6 header-nav">
             <li>
                 <a href="javascript:void(0)">消息</a>
@@ -52,32 +52,32 @@
                         <form id="rightForm" class="form-horizontal" onsubmit="return false">
 {{--                            <input class="hidden" name="Rid" value="<%=Rid%>">--}}
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="theme">题目</label>
+                                <label class="col-sm-2 control-label" for="theme">题目*</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="theme" name="theme" placeholder="题目" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="speaker">主讲人</label>
+                                <label class="col-sm-2 control-label" for="speaker">主讲人*</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="speaker" name="speaker" placeholder="主讲人" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="place">地点</label>
+                                <label class="col-sm-2 control-label" for="place">地点*</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="place"  name="place" placeholder="地点" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">时间</label>
+                                <label class="col-sm-2 control-label">时间*</label>
                                 <div class="col-sm-4 timeInput">
                                     <div class="col-sm-6"><input type="text" class="form-control" id="timeD" name="timeD" placeholder="日期" disabled></div>
                                     <div class="col-sm-6"><input type="text" class="form-control" id="timeH" name="timeH" placeholder="时间" readonly></div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="desc">简介</label>
+                                <label class="col-sm-2 control-label" for="desc">简介*</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="desc" name="desc" placeholder="简介" readonly>
                                 </div>

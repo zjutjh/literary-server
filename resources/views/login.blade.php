@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="header">
-        <h3>书香工大后台管理系统 <small>by Webber</small></h3>
+        <h3>书香工大后台管理系统 <small>by Weber</small></h3>
     </div>
     <div class="form-arr">
         <div class="form-heading">

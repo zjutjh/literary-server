@@ -14,7 +14,7 @@
 </head>
 <body>
     <div class="header navbar-fixed-top">
-        <h3 class="col-sm-6">书香工大后台管理系统 <small>by Webber</small></h3>
+        <h3 class="col-sm-6">书香工大后台管理系统 <small>by Weber</small></h3>
         <ul class="col-sm-6 header-nav">
             <li>
                 <a href="javascript:void(0)">消息</a>
@@ -78,7 +78,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="desc">简介</label>
+                                <label class="col-sm-2 control-label" for="desc">简介*</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" name="desc" id="desc" placeholder="简介">
                                 </div>

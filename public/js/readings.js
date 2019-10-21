@@ -87,6 +87,13 @@ $(document).ready(function() {
                     }
                 }
             },
+            desc: {
+                validators: {
+                    notEmpty: {
+                        message: '简介不能为空'
+                    }
+                }
+            },
             limitNum: {
                 validators: {
                     regexp: {
