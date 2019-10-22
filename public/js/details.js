@@ -173,12 +173,18 @@ var removeAllChildren = function(render_dom) {
     }
 }
 
-var showUsers = function(x) {
+var showUsers = function(x,thisa) {
+    $("#tableNavbar ul li").siblings().removeClass("active");
+    $(thisa).parent().addClass("active");
     let data
     if(!x) {
         data = user_signup
+        let str = "<strong>报名/上限:&nbsp;&nbsp;&nbsp;"+data.length+"/"+$("#limitNum").val()+"</strong>"
+        $(".navbar-text").html(str)
     } else {
         data = user_checkin
+        let str = "<strong>签到/报名:&nbsp;&nbsp;&nbsp;"+data.length+"/"+user_signup.length+"</strong>"
+        $(".navbar-text").html(str)
     }
     const render_dom = document.querySelector('tbody')
     removeAllChildren(render_dom)
@@ -194,6 +200,7 @@ var showUsers = function(x) {
         child.innerHTML = template
         render_dom.appendChild(child)
     })
+    $("#tableNavbar > button").collapse('show')
     $("#tableDiv").collapse('show')
 }
 
@@ -238,4 +245,12 @@ $("#confirmBtn").on("click",function() {
 
 $(".rightNav a").on("click",function(){
     sessionStorage.removeItem('username')
+})
+
+$("#tableNavbar > button").click(function () {
+    $("#tableDiv").tableExport({
+        type:'excel',
+        escape:'false',
+        ignoreColumn:'[3]'
+    });
 })

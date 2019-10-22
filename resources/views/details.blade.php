@@ -93,12 +93,18 @@
                                 <div class="col-sm-4" id="qrcode">
                                 </div>
                             </div>
-                            <a class="btn btn-default" onclick="showUsers(0);">查看报名人员信息</a>
-                            <a class="btn btn-default" onclick="showUsers(1);">查看签到人员信息</a>
                             <a class="btn btn-default" id="modifyBtn">修改</a>
                             <button type="submit" class="btn btn-default" id="confirmBtn">确定</button>
                             <a class="btn btn-default" id="cancleBtn">取消</a>
                         </form>
+                    </div>
+                    <div class="navbar navbar-default" id="tableNavbar">
+                        <ul class="nav navbar-nav">
+                            <li><a onclick="showUsers(0,this);">查看报名人员信息</a></li>
+                            <li><a onclick="showUsers(1,this);">查看签到人员信息</a></li>
+                        </ul>
+                        <p class="navbar-text"></p>
+                        <button type="button" class="btn btn-default navbar-btn collapse">导出</button>
                     </div>
                     <div class="collapse" id="tableDiv">
                         <table class="table table-striped" >
