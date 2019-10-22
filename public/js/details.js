@@ -1,4 +1,5 @@
 var readingId = localStorage.detailId;
+var user_signup,user_checkin
 
 $(".mainDiv ul li a").on("click",function () {
     $(".mainDiv ul li").siblings().removeClass("active");
@@ -132,34 +133,17 @@ window.onload = function() {
             }
         }
     });
-
-}
-
-$(".formBtn1").on("click",function(){
-    let str="api/book-party/showSignUp/"+readingId
+    let str1="api/book-party/showSignUp/"+readingId
+    let str2="api/book-party/showCheckIn/"+readingId
     $.ajax({
-        url: str,
+        url: str1,
         type: "GET",
         beforeSend: function (xmlhttprequest) {
             xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
         },
         success: function(result) {
-            const data = result.data.user
-            console.log(data)
             if (result.code == 0) {
-                data.forEach(element => {
-                    let template =
-                        `
-                    <td>${element.institute ? element.institute.name : '空'}</td>
-                    <td>${element.name}</td>
-                    <td>${element.sid}</td>
-                    <td>${element.mobile}</td>
-                    `
-                    let child = document.createElement('tr')
-                    child.innerHTML = template
-                    const render_dom = document.querySelector('tbody')
-                    render_dom.appendChild(child)
-                })
+                user_signup = result.data.user
             } else {
                 alert(result.error);
                 if(result.code==402||result.code==403)
@@ -167,7 +151,61 @@ $(".formBtn1").on("click",function(){
             }
         }
     });
-})
+    $.ajax({
+        url: str2,
+        type: "GET",
+        beforeSend: function (xmlhttprequest) {
+            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
+        },
+        success: function(result) {
+            if (result.code == 0) {
+                user_checkin = result.data.user
+            } else {
+                alert(result.error);
+                if(result.code==402||result.code==403)
+                    window.location.href = "login";
+            }
+        }
+    });
+}
+
+var removeAllChildren = function(render_dom) {
+    const childs = render_dom.childNodes;
+    for(let i = childs.length - 1; i >= 0; i--) {
+        render_dom.removeChild(childs[i]);
+    }
+}
+
+var showUsers = function(x,thisa) {
+    $("#tableNavbar ul li").siblings().removeClass("active");
+    $(thisa).parent().addClass("active");
+    let data
+    if(!x) {
+        data = user_signup
+        let str = "<strong>报名/上限:&nbsp;&nbsp;&nbsp;"+data.length+"/"+$("#limitNum").val()+"</strong>"
+        $(".navbar-text").html(str)
+    } else {
+        data = user_checkin
+        let str = "<strong>签到/报名:&nbsp;&nbsp;&nbsp;"+data.length+"/"+user_signup.length+"</strong>"
+        $(".navbar-text").html(str)
+    }
+    const render_dom = document.querySelector('tbody')
+    removeAllChildren(render_dom)
+    data.forEach(element => {
+        const template =
+            `
+            <td>${element.institute}</td>
+            <td>${element.name}</td>
+            <td>${element.sid}</td>
+            <td>${element.mobile}</td>
+            `
+        let child = document.createElement('tr')
+        child.innerHTML = template
+        render_dom.appendChild(child)
+    })
+    $("#tableNavbar > button").collapse('show')
+    $("#tableDiv").collapse('show')
+}
 
 $("#confirmBtn").on("click",function() {
     let theme=$("#theme").val()
@@ -210,4 +248,12 @@ $("#confirmBtn").on("click",function() {
 
 $(".rightNav a").on("click",function(){
     sessionStorage.removeItem('username')
+})
+
+$("#tableNavbar > button").click(function () {
+    $("#tableDiv").tableExport({
+        type:'excel',
+        escape:'false',
+        ignoreColumn:'[3]'
+    });
 })
