@@ -198,12 +198,25 @@ class BookPartyController extends Controller
 
 //    显示指定读书会的报名人员
     public function showSignUp($id){
-        $ids = BookPartySignup::where('book_party_id', $id)->pluck('uid');
-        $users = User::whereIn('id', $ids)->distinct()->get();
-
-        return RJM(0,[
-            'user' => $users
-        ]);
+        $users= DB::table('users')
+            ->join('book_party_signup',function ($join) use ($id){
+                $join->on('users.id','=','book_party_signup.uid')
+                    ->where('book_party_signup.book_party_id','=',$id);
+            })->get();
+        $data = [];
+        foreach ($users as $user){
+            $institute = DB::table('institutes')
+                ->where('id',$user->institute_id)
+                ->select('name')
+                ->first();
+            $data [] = array(
+                'sid' => $user->sid,
+                'name' => $user->name,
+                'mobile' => $user->mobile,
+                'institute' => $institute->name
+            );
+        }
+        return RJM(0,['user'=>$data]);
     }
 
     public function showCheckIn($id){
