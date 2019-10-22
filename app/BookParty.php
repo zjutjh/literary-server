@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
@@ -12,18 +13,30 @@ class BookParty extends Model
     protected $table = 'book_party';
 
     protected $fillable = [
-        'title', 'start_time', 'place', 'speaker', 'max_user', 'summary', 'checkin_code'
+        'title', 'start_time', 'place', 'speaker', 'max_user', 'summary', 'checkin_code', 'status'
     ];
 
     protected $hidden = [
 //        'checkin_code'
     ];
 
-    static public function getBookPartyWhenLogin($id, $uid) {
+    public function getStatusAttribute($value) {
+        if (Carbon::parse($this->attributes['start_time'])->isPast()) {
+            return 1;
+        }
+
+        return $value;
+    }
+
+    static public function getBookPartyWhenLogin($id, $uid, $withTrashed=false) {
         if (!$id) {
             return null;
         }
-        $bookParty = BookParty::where('id', '=', $id)->where('status', '=', '0')->first();
+        if (!$withTrashed) {
+            $bookParty = BookParty::where('id', '=', $id)->where('status', '=', '0')->first();
+        } else {
+            $bookParty = BookParty::withTrashed()->where('id', '=', $id)->where('status', '=', '0')->first();
+        }
         if (!$bookParty) {
             return null;
         }

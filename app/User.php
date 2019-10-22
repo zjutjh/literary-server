@@ -20,7 +20,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'sid', 'name', 'mobile', 'institute_id'
+        'name', 'sid', 'mobile', 'institute_id'
     ];
 
     /**
@@ -42,6 +42,8 @@ class User extends Authenticatable implements JWTSubject
 //        'is_admin' => 'boolean',
     ];
 
+    protected $appends = ['institute'];
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -62,14 +64,13 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-
     /**
      * 获取学院数据
      * @param  integer $value
      * @return array
      */
-    public function getInstituteIdAttribute($value) {
-        $institute = Institute::where('id', $value)->first();
+    public function getInstituteAttribute($value) {
+        $institute = Institute::where('id', $this->attributes['institute_id'])->first();
 
         return $institute;
     }

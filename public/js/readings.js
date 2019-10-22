@@ -33,10 +33,9 @@ $(document).ready(function() {
                     <td>${element.place}</td>
                     <td>${element.startTime.substr(0, element.startTime.lastIndexOf(":"))}</td>
                     <td>${element.summary}</td>
-                    <td>${element.maxUser||'无限制'}</td>
+                    <td>${element.maxUser}</td>
                     <td>
                         <button class="btn btn-default" onclick="toDetail(${element.id})">查看</button>
-                        <button class="btn btn-default" onclick="Delete(${element.id})">删除</button>
                     </td>
                     `
                     let child = document.createElement('tr')
@@ -99,6 +98,9 @@ $(document).ready(function() {
                     regexp: {
                         regexp: /^[0-9]+$/,
                         message: '请输入数字'
+                    },
+                    notEmpty: {
+                        message: '报名人数上限不能为空'
                     }
                 }
             }
@@ -158,28 +160,4 @@ function toDetail(id) {
     localStorage.detailId = id
     console.log(localStorage.detailId)
     window.location.href = "details"
-}
-
-function Delete(id) {
-    data = {
-        "bookPartyId":id
-    }
-    $.ajax({
-        url: "api/book-party/delete",
-        type: "POST",
-        data: data,
-        beforeSend: function (xmlhttprequest) {
-            xmlhttprequest.setRequestHeader("Authorization", "Bearer "+token)
-        },
-        success: function(result) {
-            if (result.code == 0) {
-                alert("删除成功!")
-            } else {
-                alert(result.error);
-                if(result.code==402||result.code==403)
-                    window.location.href = "login";
-            }
-        }
-    });
-    window.location.reload()
 }

@@ -44,7 +44,10 @@ Route::middleware('cors')->group(function () {
     // 需要登录的控制器
     Route::middleware('auth:api')->group(function () {
         Route::get('/user', function (Request $request) {
-            return RJM(0, $request->user());
+            return RJM(0, [
+                'user' => $request->user(),
+                'token' => auth('api')->refresh()
+            ]);
         });
         Route::get('user/book-party/sign-up', 'BookPartyController@getSignupListByUser');
         Route::get('user/book-party/check-in', 'BookPartyController@getCheckinListByUser');

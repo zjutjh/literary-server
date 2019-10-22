@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Institute;
 use App\User;
 use App\BookPartyCheckin;
 use App\BookPartySignup;
@@ -16,7 +17,7 @@ use Carbon\Carbon;
 class BookPartyController extends Controller
 {
     public function list() {
-        return RJM(0, BookParty::where('status', '=', '0')->get());
+        return RJM(0, BookParty::where('status', '=', '0')->orderBy('start_time', 'desc')->get());
     }
 
     public function detail(Request $request) {
@@ -40,20 +41,21 @@ class BookPartyController extends Controller
         return RJM(0, $bookParty);
     }
 
+
     public function getSignupListByUser(Request $request) {
         $user = $request->user();
-        $list = BookPartySignup::where('uid', $user->id)->get();
+        $list = BookPartySignup::where('uid', $user->id)->orderBy('id', 'desc')->get();
         foreach ($list as $key => $value) {
-            $list[$key] = BookParty::getBookPartyWhenLogin($value->book_party_id, $user->id);
+            $list[$key] = BookParty::getBookPartyWhenLogin($value->book_party_id, $user->id, true);
         }
         return RJM(0, $list);
     }
 
     public function getCheckinListByUser(Request $request) {
         $user = $request->user();
-        $list = BookPartyCheckin::where('uid', $user->id)->get();
+        $list = BookPartyCheckin::where('uid', $user->id)->orderBy('id', 'desc')->get();
         foreach ($list as $key => $value) {
-            $list[$key] = BookParty::getBookPartyWhenLogin($value->book_party_id, $user->id);
+            $list[$key] = BookParty::getBookPartyWhenLogin($value->book_party_id, $user->id, true);
         }
         return RJM(0, $list);
     }
@@ -196,27 +198,12 @@ class BookPartyController extends Controller
 
 //    显示指定读书会的报名人员
     public function showSignUp($id){
-        $users= DB::table('users')
-            ->join('book_party_signup',function ($join) use ($id){
-                $join->on('users.id','=','book_party_signup.uid')
-                    ->where('book_party_signup.book_party_id','=',$id);
-            })->get();
-        $data = [];
-        foreach ($users as $user){
-            $institute = DB::table('institutes')
-                ->where('id',$user->institute_id)
-                ->select('name')
-                ->first();
-            $data [] = array(
-                'sid' => $user->sid,
-                'name' => $user->name,
-                'mobile' => $user->mobile,
-                'institute' => $institute->name
-            );
+        $ids = BookPartySignup::where('book_party_id', $id)->pluck('uid');
+        $users = User::whereIn('id', $ids)->distinct()->get();
 
-        }
-
-        return RJM(0,['user'=>$data]);
+        return RJM(0,[
+            'user' => $users
+        ]);
     }
 
     public function showCheckIn($id){
