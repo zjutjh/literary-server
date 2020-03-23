@@ -195,6 +195,7 @@ var showUsers = function(x,thisa) {
         const template =
             `
             <td>${element.institute}</td>
+            <td>${element.class}</td>
             <td>${element.name}</td>
             <td>${element.sid}</td>
             <td>${element.mobile}</td>
@@ -254,6 +255,6 @@ $("#tableNavbar > button").click(function () {
     $("#tableDiv").tableExport({
         type:'excel',
         escape:'false',
-        ignoreColumn:'[3]'
+        ignoreColumn:'[4]'
     });
 })

@@ -213,7 +213,8 @@ class BookPartyController extends Controller
                 'sid' => $user->sid,
                 'name' => $user->name,
                 'mobile' => $user->mobile,
-                'institute' => $institute->name
+                'institute' => $institute->name,
+                'class' => $user->class
             );
         }
         return RJM(0,['user'=>$data]);
@@ -235,7 +236,8 @@ class BookPartyController extends Controller
                 'sid' => $user->sid,
                 'name' => $user->name,
                 'mobile' => $user->mobile,
-                'institute' => $institute->name
+                'institute' => $institute->name,
+                'class' => $user->class
             );
 
         }

@@ -12,11 +12,13 @@ class UserController extends Controller
         $messages = [
             'mobile.required' => '手机不能为空',
             'instituteId.required' => '学院不能为空',
-            'name.required' => '姓名不能为空'
+            'name.required' => '姓名不能为空',
+            'class.required' => '班级不能为空'
         ];
         $validator = Validator::make($request->all(), [
             'instituteId' => 'required',
             'name' => 'required',
+            'class' => 'required',
             'mobile' => ['required', new MobileRule]
         ], $messages);
         if ($validator->fails()) {
@@ -26,11 +28,13 @@ class UserController extends Controller
         $mobile = $request->get('mobile');
         $instituteId = $request->get('instituteId');
         $name = $request->get('name');
+        $class = $request->get('class');
 
         $user = $request->user();
         $user->mobile = $mobile;
         $user->institute_id = $instituteId;
         $user->name = $name;
+        $user->class = $class;
         $user->save();
 
         return RJM(0, $user, '更新成功');
