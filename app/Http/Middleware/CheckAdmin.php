@@ -28,6 +28,7 @@ class CheckAdmin extends BaseMiddleware
             if ($this->auth->parseToken()->authenticate()) {
                 return $next($request);
             }
+            return RJM(-401, null, '未登录');
         } catch (TokenExpiredException $e) {
             try {
                 // 刷新用户的 token
