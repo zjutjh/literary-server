@@ -239,8 +239,8 @@ $("#confirmBtn").on("click",function() {
                 alert("修改成功!")
                 window.location.reload()
             } else {
-                alert(result.error);
-                if(result.code==402||result.code==403)
+                alert(res.error);
+                if(res.code==402||res.code==403)
                     window.location.href = "login";
             }
         }
